@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Logic", "Travis.Logic\Travis.Logic.csproj", "{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Games", "Travis.Games\Travis.Games.csproj", "{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.TreeBuilder", "Travis.TreeBuilder\Travis.TreeBuilder.csproj", "{62E4ED1C-435D-4DD0-B690-6D2BC729B416}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E4ED1C-435D-4DD0-B690-6D2BC729B416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E4ED1C-435D-4DD0-B690-6D2BC729B416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E4ED1C-435D-4DD0-B690-6D2BC729B416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E4ED1C-435D-4DD0-B690-6D2BC729B416}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
