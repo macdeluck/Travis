@@ -1,8 +1,8 @@
 ﻿using System;
 using Travis.Common.Extensions;
-using Travis.Learning.Model;
+using Travis.Common.Model;
 
-namespace Travis.Learning.TreePolicies
+namespace Travis.Learning.Model
 {
     public class UCT : ITreePolicy
     {

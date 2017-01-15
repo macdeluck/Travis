@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Travis.Learning.Model
+﻿namespace Travis.Common.Model
 {
     /// <summary>
     /// Action of actor.

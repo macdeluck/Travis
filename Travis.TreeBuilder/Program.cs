@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Travis.Games.GreedyNumbers;
 using Travis.Learning;
-using Travis.Learning.BudgetProviders;
 using Travis.Learning.Model;
 
 namespace Travis.TreeBuilder

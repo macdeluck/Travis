@@ -36,11 +36,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Travis.Common\Travis.Common.csproj">
+      <Project>{8D63087B-C5E9-4728-9000-3DC5476CD3D8}</Project>
+      <Name>Travis.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Travis.Games\Travis.Games.csproj">
       <Project>{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}</Project>
       <Name>Travis.Games</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Travis.Logic\Travis.Learning.csproj">
+    <ProjectReference Include="..\Travis.Learning\Travis.Learning.csproj">
       <Project>{c7660437-4242-4c14-ade6-2c0cde5dcef5}</Project>
       <Name>Travis.Learning</Name>
     </ProjectReference>

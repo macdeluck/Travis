@@ -1,7 +1,7 @@
 ﻿using Travis.Common.Extensions;
-using Travis.Learning.Model;
+using Travis.Common.Model;
 
-namespace Travis.Learning.DefaultPolicies
+namespace Travis.Learning.Model
 {
     /// <summary>
     /// Default policy with selects moves randomly.

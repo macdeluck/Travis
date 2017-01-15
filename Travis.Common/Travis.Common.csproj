@@ -47,6 +47,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Model\ActionSet.cs" />
+    <Compile Include="Model\IAction.cs" />
+    <Compile Include="Model\IProblem.cs" />
+    <Compile Include="Model\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

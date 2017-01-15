@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Travis.Learning.DefaultPolicies;
-using Travis.Learning.TreePolicies;
+using Travis.Learning.Model;
 
 namespace Travis.Learning.Model
 {

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Travis.Learning.BudgetProviders;
+using Travis.Common.Model;
+using Travis.Learning.Model;
 using Travis.Learning.Model;
 
 namespace Travis.Learning
 {
     /// <summary>
-    /// Processes tree with MCTS algorithm.
+    /// Performs tree learning with MCTS algorithm.
     /// </summary>
     public class TreeSearchProcessor
     {
