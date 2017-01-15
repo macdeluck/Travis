@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Travis.Logic.Extensions;
-using Travis.Logic.Model;
-using Travis.Logic.Utils;
+using Travis.Common.Extensions;
+using Travis.Learning.Model;
 
 namespace Travis.Games.GreedyNumbers
 {
@@ -51,7 +47,7 @@ namespace Travis.Games.GreedyNumbers
         /// </summary>
         public int CurrentActorId { get; private set; }
 
-        public void Apply(IActionSet actionSet)
+        public void Apply(ActionSet actionSet)
         {
             var action = (GreedyNumbersAction)actionSet.Actions[CurrentActorId];
             PicksAvailable[action.PickValue]--;
@@ -66,9 +62,9 @@ namespace Travis.Games.GreedyNumbers
             return new GreedyNumbersState(PicksAvailable.Clone(), Points.Clone(), CurrentActorId, ParentGame);
         }
 
-        public IActionSet CreateActionSet(IDictionary<int, IAction> actions)
+        public ActionSet CreateActionSet(IDictionary<int, IAction> actions)
         {
-            return new BasicActionSet()
+            return new ActionSet()
             {
                 Actions = actions,
                 ActionSetId = actions[CurrentActorId].ActionId

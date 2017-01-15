@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}</ProjectGuid>
+    <ProjectGuid>{8D63087B-C5E9-4728-9000-3DC5476CD3D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Travis.Logic</RootNamespace>
-    <AssemblyName>Travis.Logic</AssemblyName>
+    <RootNamespace>Travis.Common</RootNamespace>
+    <AssemblyName>Travis.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,14 +29,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultPolicies\RandomDefaultPolicy.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Messages.Designer.cs">
@@ -47,25 +47,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Model\ActionQualityInfo.cs" />
-    <Compile Include="Model\ActorQualityInfo.cs" />
-    <Compile Include="Model\IDefaultPolicy.cs" />
-    <Compile Include="Model\ITreePolicy.cs" />
-    <Compile Include="TreePolicies\UCT.cs" />
-    <Compile Include="Utils\BasicActionSet.cs" />
-    <Compile Include="Model\IAction.cs" />
-    <Compile Include="Model\ActionSelector.cs" />
-    <Compile Include="Model\IActionSet.cs" />
-    <Compile Include="Model\IBudgetProvider.cs" />
-    <Compile Include="Model\IProblem.cs" />
-    <Compile Include="Model\IState.cs" />
-    <Compile Include="BudgetProviders\IterationBasedBudgetProvider.cs" />
-    <Compile Include="Model\NodeQualityInfo.cs" />
-    <Compile Include="Model\TreeNode.cs" />
-    <Compile Include="TreeSearchProcessor.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Messages.resx">

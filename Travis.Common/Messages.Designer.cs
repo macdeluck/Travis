@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Travis.Logic {
+namespace Travis.Common {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Travis.Logic {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Travis.Logic.Messages", typeof(Messages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Travis.Common.Messages", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,11 @@ namespace Travis.Logic {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Action Id is not valid in current set..
-        /// </summary>
-        internal static string ActionIdIsNotValidInActorActionSet {
-            get {
-                return ResourceManager.GetString("ActionIdIsNotValidInActorActionSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Collection cannot be empty..
         /// </summary>
         internal static string CollectionCannotBeEmpty {
             get {
                 return ResourceManager.GetString("CollectionCannotBeEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lazy actor action set is not valid anymore..
-        /// </summary>
-        internal static string InvalidLazyActorActionSet {
-            get {
-                return ResourceManager.GetString("InvalidLazyActorActionSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Computational budget was not set for algorithm..
-        /// </summary>
-        internal static string NoComputationalBudgetSet {
-            get {
-                return ResourceManager.GetString("NoComputationalBudgetSet", resourceCulture);
             }
         }
     }

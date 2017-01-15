@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Travis.Logic.Extensions;
-using Travis.Logic.Model;
+﻿using Travis.Common.Extensions;
+using Travis.Learning.Model;
 
-namespace Travis.Logic.DefaultPolicies
+namespace Travis.Learning.DefaultPolicies
 {
     /// <summary>
     /// Default policy with selects moves randomly.

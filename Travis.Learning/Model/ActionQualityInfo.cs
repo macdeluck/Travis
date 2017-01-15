@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Travis.Logic.Model
+namespace Travis.Learning.Model
 {
     /// <summary>
     /// Stores information about quality of particular action.

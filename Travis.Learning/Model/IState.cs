@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Travis.Logic.Model
+namespace Travis.Learning.Model
 {
     /// <summary>
     /// Represents state of problem.
@@ -25,13 +25,13 @@ namespace Travis.Logic.Model
         /// Applies action set to state and switches to next state.
         /// </summary>
         /// <param name="actionSet">A set of actions taken by actors.</param>
-        void Apply(IActionSet actionSet);
+        void Apply(ActionSet actionSet);
 
         /// <summary>
         /// Creates action set from chosen actions.
         /// </summary>
         /// <param name="actions">Actions chosen by actors keyed with their ids.</param>
-        IActionSet CreateActionSet(IDictionary<int, IAction> actions);
+        ActionSet CreateActionSet(IDictionary<int, IAction> actions);
 
         /// <summary>
         /// Returns true if state is terminal.

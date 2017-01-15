@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Travis.Logic.Model;
+using Travis.Learning.Model;
 
 namespace Travis.Games.GreedyNumbers
 {

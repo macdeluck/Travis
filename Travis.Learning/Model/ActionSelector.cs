@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Travis.Logic.DefaultPolicies;
-using Travis.Logic.TreePolicies;
+using Travis.Learning.DefaultPolicies;
+using Travis.Learning.TreePolicies;
 
-namespace Travis.Logic.Model
+namespace Travis.Learning.Model
 {
     /// <summary>
     /// Class containing policies of selecting action during tree learning.

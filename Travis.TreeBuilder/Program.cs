@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Travis.Games.GreedyNumbers;
-using Travis.Logic;
-using Travis.Logic.BudgetProviders;
-using Travis.Logic.Model;
+using Travis.Learning;
+using Travis.Learning.BudgetProviders;
+using Travis.Learning.Model;
 
 namespace Travis.TreeBuilder
 {
@@ -22,7 +22,7 @@ namespace Travis.TreeBuilder
         {
             var processor = new TreeSearchProcessor();
             var tree = new TreeNode();
-            var problem = new GreedyNumbers(2, new Dictionary<int, int>() { { 2, 3 }, { 7, 1 } });
+            var problem = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 5 }, { 2, 3 }, { 7, 1 } });
             processor.Process(tree, problem, 1000);
         }
     }

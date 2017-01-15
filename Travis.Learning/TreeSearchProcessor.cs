@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Travis.Logic.BudgetProviders;
-using Travis.Logic.Model;
+using Travis.Learning.BudgetProviders;
+using Travis.Learning.Model;
 
-namespace Travis.Logic
+namespace Travis.Learning
 {
     /// <summary>
     /// Processes tree with MCTS algorithm.
@@ -111,7 +111,7 @@ namespace Travis.Logic
 
         private IState currentState;
 
-        private Stack<Tuple<TreeNode, IActionSet>> decisionPath;
+        private Stack<Tuple<TreeNode, ActionSet>> decisionPath;
 
         private IProblem problem;
 
@@ -121,17 +121,17 @@ namespace Travis.Logic
         {
             currentNode = root;
             currentState = rootState.Clone();
-            decisionPath = new Stack<Tuple<TreeNode, IActionSet>>();
+            decisionPath = new Stack<Tuple<TreeNode, ActionSet>>();
             this.actionSelectors = actionSelectors;
             this.problem = problem;
         }
 
-        private void PushDecisionPath(IActionSet actionSet)
+        private void PushDecisionPath(ActionSet actionSet)
         {
             decisionPath.Push(Tuple.Create(currentNode, actionSet));
         }
 
-        private void PopDecisionPath(out TreeNode node, out IActionSet actionSet)
+        private void PopDecisionPath(out TreeNode node, out ActionSet actionSet)
         {
             var decisionNode = decisionPath.Pop();
             node = decisionNode.Item1;
@@ -140,7 +140,7 @@ namespace Travis.Logic
         #endregion
 
         #region Selection
-        private IActionSet Select()
+        private ActionSet Select()
         {
             while (!currentState.IsTerminal)
             {
@@ -156,7 +156,7 @@ namespace Travis.Logic
             return null;
         }
 
-        private IActionSet SelectActionsTreePolicy()
+        private ActionSet SelectActionsTreePolicy()
         {
             var actions = new Dictionary<int, IAction>();
             foreach (var actorId in problem.EnumerateActors())
@@ -171,7 +171,7 @@ namespace Travis.Logic
 
         #region Expansion
 
-        private void Expand(IActionSet actionSet)
+        private void Expand(ActionSet actionSet)
         {
             if (actionSet != null)
             {
@@ -195,7 +195,7 @@ namespace Travis.Logic
             }
         }
 
-        private IActionSet SelectActionsDefaultPolicy()
+        private ActionSet SelectActionsDefaultPolicy()
         {
             var actions = new Dictionary<int, IAction>();
             foreach (var actorId in problem.EnumerateActors())
@@ -214,7 +214,7 @@ namespace Travis.Logic
         private void Backpropagate()
         {
             TreeNode node;
-            IActionSet actionSet;
+            ActionSet actionSet;
 
             var payoffs = currentState.GetPayoffs();
             while (decisionPath.Any())

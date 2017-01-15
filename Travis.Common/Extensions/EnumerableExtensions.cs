@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Travis.Logic.Extensions
+namespace Travis.Common.Extensions
 {
     public static class EnumerableExtensions
     {
