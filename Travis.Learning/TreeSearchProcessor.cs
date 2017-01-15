@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Travis.Common.Model;
 using Travis.Learning.Model;
-using Travis.Learning.Model;
 
 namespace Travis.Learning
 {
@@ -13,78 +12,78 @@ namespace Travis.Learning
     public class TreeSearchProcessor
     {
         /// <summary>
-        /// Runs MCTS algorithm on tree for given problem using default MCTS action selectors.
+        /// Runs MCTS algorithm on tree for given game using default MCTS action selectors.
         /// </summary>
         /// <param name="root">Tree root.</param>
-        /// <param name="problem">Problem refering to state.</param>
+        /// <param name="game">Game to process.</param>
         /// <param name="iterations">Number of iterations of algorithm to run.</param>
-        public void Process(TreeNode root, IProblem problem, int iterations)
+        public void Process(TreeNode root, IGame game, int iterations)
         {
-            Process(root, problem, iterations, ActionSelector.CreateBasic(problem.EnumerateActors()));
+            Process(root, game, iterations, ActionSelector.CreateBasic(game.EnumerateActors()));
         }
 
         /// <summary>
-        /// Runs MCTS algorithm on tree for given problem.
+        /// Runs MCTS algorithm on tree for given game.
         /// </summary>
         /// <param name="root">Tree root.</param>
-        /// <param name="problem">Problem refering to state.</param>
+        /// <param name="game">Game to process.</param>
         /// <param name="iterations">Number of iterations of algorithm to run.</param>
         /// <param name="actionSelectors">Action selectors for actors.</param>
-        public void Process(TreeNode root, IProblem problem, int iterations, IDictionary<int, ActionSelector> actionSelectors)
+        public void Process(TreeNode root, IGame game, int iterations, IDictionary<int, ActionSelector> actionSelectors)
         {
-            Process(root, problem.GetInitialState(), problem, iterations, actionSelectors);
+            Process(root, game.GetInitialState(), game, iterations, actionSelectors);
         }
 
         /// <summary>
-        /// Runs MCTS algorithm on tree for given problem starting with given state.
+        /// Runs MCTS algorithm on tree for given game starting with given state.
+        /// </summary>
+        /// <param name="root">Tree root.</param>
+        /// <param name="rootState">Game state refering to tree root.</param>
+        /// <param name="game">Game to process starting at <paramref name="rootState"/>.</param>
+        /// <param name="iterations">Number of iterations of algorithm to run.</param>
+        /// <param name="actionSelectors">Action selectors for actors.</param>
+        public void Process(TreeNode root, IState rootState, IGame game, int iterations, IDictionary<int, ActionSelector> actionSelectors)
+        {
+            Process(root, rootState, game, new IterationBasedBudgetProvider(iterations), actionSelectors);
+        }
+
+        /// <summary>
+        /// Runs MCTS algorithm on tree for given game using default MCTS action selectors.
+        /// </summary>
+        /// <param name="root">Tree root.</param>
+        /// <param name="game">Game to process.</param>
+        /// <param name="computationalBudget">Computational budget to run learning.</param>
+        public void Process(TreeNode root, IGame game, IBudgetProvider computationalBudget)
+        {
+            Process(root, game, computationalBudget, ActionSelector.CreateBasic(game.EnumerateActors()));
+        }
+
+        /// <summary>
+        /// Runs MCTS algorithm on tree for given game.
+        /// </summary>
+        /// <param name="root">Tree root.</param>
+        /// <param name="game">Game to process.</param>
+        /// <param name="computationalBudget">Computational budget to run learning.</param>
+        /// <param name="actionSelectors">Action selectors for actors.</param>
+        public void Process(TreeNode root, IGame game, IBudgetProvider computationalBudget, IDictionary<int, ActionSelector> actionSelectors)
+        {
+            Process(root, game.GetInitialState(), game, computationalBudget, actionSelectors);
+        }
+
+        /// <summary>
+        /// Runs MCTS algorithm on tree for given game starting with given state.
         /// </summary>
         /// <param name="root">Tree root.</param>
         /// <param name="rootState">Problem state refering to tree root.</param>
-        /// <param name="problem">Problem refering to state.</param>
-        /// <param name="iterations">Number of iterations of algorithm to run.</param>
-        /// <param name="actionSelectors">Action selectors for actors.</param>
-        public void Process(TreeNode root, IState rootState, IProblem problem, int iterations, IDictionary<int, ActionSelector> actionSelectors)
-        {
-            Process(root, rootState, problem, new IterationBasedBudgetProvider(iterations), actionSelectors);
-        }
-
-        /// <summary>
-        /// Runs MCTS algorithm on tree for given problem using default MCTS action selectors.
-        /// </summary>
-        /// <param name="root">Tree root.</param>
-        /// <param name="problem">Problem refering to state.</param>
-        /// <param name="computationalBudget">Computational budget to run learning.</param>
-        public void Process(TreeNode root, IProblem problem, IBudgetProvider computationalBudget)
-        {
-            Process(root, problem, computationalBudget, ActionSelector.CreateBasic(problem.EnumerateActors()));
-        }
-
-        /// <summary>
-        /// Runs MCTS algorithm on tree for given problem.
-        /// </summary>
-        /// <param name="root">Tree root.</param>
-        /// <param name="problem">Problem refering to state.</param>
+        /// <param name="game">Game to process starting at <paramref name="rootState"/>.</param>
         /// <param name="computationalBudget">Computational budget to run learning.</param>
         /// <param name="actionSelectors">Action selectors for actors.</param>
-        public void Process(TreeNode root, IProblem problem, IBudgetProvider computationalBudget, IDictionary<int, ActionSelector> actionSelectors)
-        {
-            Process(root, problem.GetInitialState(), problem, computationalBudget, actionSelectors);
-        }
-
-        /// <summary>
-        /// Runs MCTS algorithm on tree for given problem starting with given state.
-        /// </summary>
-        /// <param name="root">Tree root.</param>
-        /// <param name="rootState">Problem state refering to tree root.</param>
-        /// <param name="problem">Problem refering to state.</param>
-        /// <param name="computationalBudget">Computational budget to run learning.</param>
-        /// <param name="actionSelectors">Action selectors for actors.</param>
-        public void Process(TreeNode root, IState rootState, IProblem problem, IBudgetProvider computationalBudget, IDictionary<int, ActionSelector> actionSelectors)
+        public void Process(TreeNode root, IState rootState, IGame game, IBudgetProvider computationalBudget, IDictionary<int, ActionSelector> actionSelectors)
         {
             computationalBudget.Start();
             while (computationalBudget.HasBudgetLeft())
             {
-                ProcessIteration(root, rootState, problem, actionSelectors);
+                ProcessIteration(root, rootState, game, actionSelectors);
                 computationalBudget.Next();
             }
         }
@@ -94,11 +93,11 @@ namespace Travis.Learning
         /// </summary>
         /// <param name="root">Tree root.</param>
         /// <param name="rootState">State refering to tree root.</param>
-        /// <param name="problem">Problem refering to state.</param>
+        /// <param name="game">Game to process starting at <paramref name="rootState"/>.</param>
         /// <param name="actionSelectors">Action selectors for actors.</param>
-        public void ProcessIteration(TreeNode root, IState rootState, IProblem problem, IDictionary<int, ActionSelector> actionSelectors)
+        public void ProcessIteration(TreeNode root, IState rootState, IGame game, IDictionary<int, ActionSelector> actionSelectors)
         {
-            InitIteration(root, rootState, problem, actionSelectors);
+            InitIteration(root, rootState, game, actionSelectors);
             var actionSet = Select();
             Expand(actionSet);
             Simulate();
@@ -112,17 +111,17 @@ namespace Travis.Learning
 
         private Stack<Tuple<TreeNode, ActionSet>> decisionPath;
 
-        private IProblem problem;
+        private IGame game;
 
         private IDictionary<int, ActionSelector> actionSelectors;
 
-        private void InitIteration(TreeNode root, IState rootState, IProblem problem, IDictionary<int, ActionSelector> actionSelectors)
+        private void InitIteration(TreeNode root, IState rootState, IGame game, IDictionary<int, ActionSelector> actionSelectors)
         {
             currentNode = root;
             currentState = rootState.Clone();
             decisionPath = new Stack<Tuple<TreeNode, ActionSet>>();
             this.actionSelectors = actionSelectors;
-            this.problem = problem;
+            this.game = game;
         }
 
         private void PushDecisionPath(ActionSet actionSet)
@@ -158,7 +157,7 @@ namespace Travis.Learning
         private ActionSet SelectActionsTreePolicy()
         {
             var actions = new Dictionary<int, IAction>();
-            foreach (var actorId in problem.EnumerateActors())
+            foreach (var actorId in game.EnumerateActors())
             {
                 var action = actionSelectors[actorId].TreePolicy.Invoke(currentNode, currentState, actorId);
                 actions.Add(actorId, action);
@@ -197,7 +196,7 @@ namespace Travis.Learning
         private ActionSet SelectActionsDefaultPolicy()
         {
             var actions = new Dictionary<int, IAction>();
-            foreach (var actorId in problem.EnumerateActors())
+            foreach (var actorId in game.EnumerateActors())
             {
                 var action = actionSelectors[actorId].DefaultPolicy.Invoke(currentState, actorId);
                 actions.Add(actorId, action);

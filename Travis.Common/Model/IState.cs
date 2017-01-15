@@ -3,7 +3,7 @@
 namespace Travis.Common.Model
 {
     /// <summary>
-    /// Represents state of problem.
+    /// Represents state of game.
     /// </summary>
     public interface IState
     {

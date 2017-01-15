@@ -7,7 +7,7 @@ namespace Travis.Games.GreedyNumbers
     /// <summary>
     /// Simple game which goals to take as high picks aggregated value as possible.
     /// </summary>
-    public class GreedyNumbers : IProblem
+    public class GreedyNumbers : IGame
     {
         /// <summary>
         /// Creates new instance of game.

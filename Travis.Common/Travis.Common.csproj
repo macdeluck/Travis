@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -49,7 +50,7 @@
     </Compile>
     <Compile Include="Model\ActionSet.cs" />
     <Compile Include="Model\IAction.cs" />
-    <Compile Include="Model\IProblem.cs" />
+    <Compile Include="Model\IGame.cs" />
     <Compile Include="Model\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

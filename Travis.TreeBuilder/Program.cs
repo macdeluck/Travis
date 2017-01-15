@@ -17,8 +17,8 @@ namespace Travis.TreeBuilder
         {
             var processor = new TreeSearchProcessor();
             var tree = new TreeNode();
-            var problem = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 5 }, { 2, 3 }, { 7, 1 } });
-            processor.Process(tree, problem, 1000);
+            var game = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 5 }, { 2, 3 }, { 7, 1 } });
+            processor.Process(tree, game, 1000);
         }
     }
 }

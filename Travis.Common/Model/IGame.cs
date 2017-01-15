@@ -3,12 +3,12 @@
 namespace Travis.Common.Model
 {
     /// <summary>
-    /// Represents decision problem.
+    /// Represents game.
     /// </summary>
-    public interface IProblem
+    public interface IGame
     {
         /// <summary>
-        /// Returs number of actors for particular problem.
+        /// Returs number of actors for particular game.
         /// </summary>
         int NumberOfActors { get; }
 
@@ -19,12 +19,12 @@ namespace Travis.Common.Model
         IEnumerable<int> EnumerateActors();
 
         /// <summary>
-        /// Returns initial state for problem.
+        /// Returns initial state for game.
         /// </summary>
         IState GetInitialState();
 
         /// <summary>
-        /// Gets problem name.
+        /// Gets game name.
         /// </summary>
         string Name { get; }
     }

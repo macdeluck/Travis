@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Travis.Learning.Model;
+using Travis.Common.Model;
 
 namespace Travis.Learning.Model
 {
@@ -22,7 +22,7 @@ namespace Travis.Learning.Model
         /// <summary>
         /// Creates basic <see cref="ActionSelector"/> for each actor.
         /// </summary>
-        /// <param name="actors">Actor ids received from <see cref="IProblem.EnumerateActors"/>.</param>
+        /// <param name="actors">Actor ids received from <see cref="IGame.EnumerateActors"/>.</param>
         public static IDictionary<int, ActionSelector> CreateBasic(IEnumerable<int> actors)
         {
             return actors.ToDictionary(i => i, i => new ActionSelector());
