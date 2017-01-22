@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Learning", "Travis.Learning\Travis.Learning.csproj", "{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Games", "Travis.Games\Travis.Games.csproj", "{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.TreeBuilder", "Travis.TreeBuilder\Travis.TreeBuilder.csproj", "{62E4ED1C-435D-4DD0-B690-6D2BC729B416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Common", "Travis.Common\Travis.Common.csproj", "{8D63087B-C5E9-4728-9000-3DC5476CD3D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Logic", "Travis.Logic\Travis.Logic.csproj", "{070C9A99-8DEF-4750-B9AA-1C043F2B3988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Contest", "Travis.Contest\Travis.Contest.csproj", "{D6472EF8-FF2A-4525-9551-E0A0654B5846}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travis.Test", "Travis.Test\Travis.Test.csproj", "{AEA3FBAC-D305-42E4-8812-C6F45F327F6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7660437-4242-4C14-ADE6-2C0CDE5DCEF5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E6A8B9B-F6C6-4AAA-A838-6A8BCAC3B063}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,14 +25,14 @@ Global
 		{62E4ED1C-435D-4DD0-B690-6D2BC729B416}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62E4ED1C-435D-4DD0-B690-6D2BC729B416}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62E4ED1C-435D-4DD0-B690-6D2BC729B416}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D63087B-C5E9-4728-9000-3DC5476CD3D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D63087B-C5E9-4728-9000-3DC5476CD3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D63087B-C5E9-4728-9000-3DC5476CD3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D63087B-C5E9-4728-9000-3DC5476CD3D8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6472EF8-FF2A-4525-9551-E0A0654B5846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6472EF8-FF2A-4525-9551-E0A0654B5846}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6472EF8-FF2A-4525-9551-E0A0654B5846}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6472EF8-FF2A-4525-9551-E0A0654B5846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{070C9A99-8DEF-4750-B9AA-1C043F2B3988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{070C9A99-8DEF-4750-B9AA-1C043F2B3988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{070C9A99-8DEF-4750-B9AA-1C043F2B3988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{070C9A99-8DEF-4750-B9AA-1C043F2B3988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA3FBAC-D305-42E4-8812-C6F45F327F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA3FBAC-D305-42E4-8812-C6F45F327F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA3FBAC-D305-42E4-8812-C6F45F327F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA3FBAC-D305-42E4-8812-C6F45F327F6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Travis.Common.Extensions;
-using Travis.Common.Model;
+using Travis.Logic.Extensions;
+using Travis.Logic.Model;
 
 namespace Travis.Games.GreedyNumbers
 {

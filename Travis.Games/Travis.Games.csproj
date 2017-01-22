@@ -39,18 +39,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Travis.Common\Travis.Common.csproj">
-      <Project>{8D63087B-C5E9-4728-9000-3DC5476CD3D8}</Project>
-      <Name>Travis.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="GreedyNumbers\GreedyNumbers.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersAction.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Travis.Logic\Travis.Logic.csproj">
+      <Project>{070c9a99-8def-4750-b9aa-1c043f2b3988}</Project>
+      <Name>Travis.Logic</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

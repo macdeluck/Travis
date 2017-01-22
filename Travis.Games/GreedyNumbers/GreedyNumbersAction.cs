@@ -1,4 +1,4 @@
-﻿using Travis.Common.Model;
+﻿using Travis.Logic.Model;
 
 namespace Travis.Games.GreedyNumbers
 {
