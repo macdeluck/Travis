@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Travis.Logic.Extensions;
 using Travis.Logic.Model;
 
@@ -114,6 +115,16 @@ namespace Travis.Games.GreedyNumbers
             return Points.ToDictionary(
                 kv => kv.Key, 
                 kv => kv.Value != topPoints ? 0 : topPointsCount > 1 ? 0.5 : 1);
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"Current actor: {CurrentActorId}");
+            sb.AppendFormat("Points: {0}", string.Join(", ", Points.Select(p => $"{p.Key} - {p.Value}")));
+            sb.AppendLine();
+            sb.AppendFormat("Picks available: {0}", string.Join(", ", PicksAvailable.Select(p => $"{p.Key} - {p.Value}")));
+            return sb.ToString();
         }
     }
 }

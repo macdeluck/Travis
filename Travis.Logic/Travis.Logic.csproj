@@ -53,6 +53,7 @@
     <Compile Include="Learning\Model\ITreePolicy.cs" />
     <Compile Include="Learning\Model\NodeQualityInfo.cs" />
     <Compile Include="Learning\TreeSearchProcessor.cs" />
+    <Compile Include="MCTS\IActionSelectorBuilder.cs" />
     <Compile Include="MCTS\MCTSActionSelector.cs" />
     <Compile Include="MCTS\MCTSActor.cs" />
     <Compile Include="MCTS\RandomDefaultPolicy.cs" />

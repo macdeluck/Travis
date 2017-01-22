@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Travis.Logic.Learning.Model;
+using Travis.Logic.Model;
 
 namespace Travis.Logic.MCTS
 {
@@ -20,6 +22,22 @@ namespace Travis.Logic.MCTS
                 DefaultPolicy = new RandomDefaultPolicy(),
                 TreePolicy = new UCT()
             });
+        }
+
+        private class MCTSActionSelectorBuilder : IActionSelectorBuilder
+        {
+            public IDictionary<int, ActionSelector> CreateSelectors(int actorId, IGame game)
+            {
+                return Create(game.EnumerateActors());
+            }
+        }
+
+        /// <summary>
+        /// Creates basic action selector builder for <see cref="MCTSActor"/>.
+        /// </summary>
+        public static IActionSelectorBuilder GetBuilder()
+        {
+            return new MCTSActionSelectorBuilder();
         }
     }
 }

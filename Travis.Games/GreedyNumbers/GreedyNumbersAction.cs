@@ -14,5 +14,12 @@ namespace Travis.Games.GreedyNumbers
         public int ActionId { get; set; }
 
         public int ActorId { get; set; }
+
+        public override string ToString()
+        {
+            if (IsNoop)
+                return "Noop";
+            return PickValue.ToString();
+        }
     }
 }

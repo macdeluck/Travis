@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Travis.Logic.Extensions;
 using Travis.Logic.Model;
 
 namespace Travis.Games.GreedyNumbers
@@ -39,7 +40,7 @@ namespace Travis.Games.GreedyNumbers
 
         public IState GetInitialState()
         {
-            return new GreedyNumbersState(InitialPickValues, EnumerateActors().ToDictionary(i => i, i => 0), EnumerateActors().First(), this);
+            return new GreedyNumbersState(InitialPickValues.Clone(), EnumerateActors().ToDictionary(i => i, i => 0), EnumerateActors().First(), this);
         }
 
         public string Name => nameof(GreedyNumbers);
