@@ -50,6 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CustomAssert.cs" />
+    <Compile Include="Logic\Contest\MatchmakingProcessorTest.cs" />
     <Compile Include="Logic\Learning\TreeSearchProcessorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

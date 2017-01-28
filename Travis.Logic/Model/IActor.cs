@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Travis.Logic.Model;
 
 namespace Travis.Logic.Model
 {
@@ -11,9 +10,10 @@ namespace Travis.Logic.Model
         /// <summary>
         /// Method called on actor when match begins.
         /// </summary>
-        /// <param name="actorId">Identifier assigned to player.</param>
         /// <param name="game">Game which is executed.</param>
-        void OnMatchBegin(int actorId, IGame game);
+        /// <param name="state">Begin game state.</param>
+        /// <param name="actorId">Identifier assigned to player.</param>
+        void OnMatchBegin(IGame game, IState state, int actorId);
 
         /// <summary>
         /// Returns identifier assigned on match begin.
@@ -36,7 +36,7 @@ namespace Travis.Logic.Model
         /// <summary>
         /// Method called when game has been finished.
         /// </summary>
-        /// <param name="payoffs">Payoffs received from game.</param>
-        void OnMatchFinished(IDictionary<int, double> payoffs);
+        /// <param name="state">Final game state.</param>
+        void OnMatchFinished(IState state);
     }
 }

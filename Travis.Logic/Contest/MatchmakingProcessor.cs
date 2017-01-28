@@ -20,7 +20,6 @@ namespace Travis.Logic.Contest
         {
             InitGame(game, actors);
             OnMatchBegin();
-            currentState = game.GetInitialState();
             while (!currentState.IsTerminal)
             {
                 var actions = GetActionSet();
@@ -45,7 +44,7 @@ namespace Travis.Logic.Contest
         private void OnMatchBegin()
         {
             foreach (var kv in actors)
-                kv.Value.OnMatchBegin(kv.Key, game);
+                kv.Value.OnMatchBegin(game, currentState, kv.Key);
             MatchStarted?.Invoke(game, currentState, actors.Values);
         }
 
@@ -58,9 +57,8 @@ namespace Travis.Logic.Contest
         
         private void OnMatchFinished()
         {
-            var payoffs = currentState.GetPayoffs();
             foreach (var actor in actors.Values)
-                actor.OnMatchFinished(payoffs);
+                actor.OnMatchFinished(currentState);
             MatchFinished?.Invoke(game, currentState);
         }
 
@@ -85,6 +83,7 @@ namespace Travis.Logic.Contest
                 this.actors.Add(actorItem.ActorId, actorItem.Actor);
             if (this.actors.Count < game.NumberOfActors)
                 throw new ArgumentException(Messages.NotEnoughActorsProvided.FormatString(nameof(actors), game.NumberOfActors));
+            currentState = game.GetInitialState();
         }
     }
 }

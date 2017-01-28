@@ -101,9 +101,10 @@ namespace Travis.Logic.MCTS
         /// <summary>
         /// Method called on actor when match begins.
         /// </summary>
-        /// <param name="actorId">Identifier assigned to player.</param>
         /// <param name="game">Game which is executed.</param>
-        public void OnMatchBegin(int actorId, IGame game)
+        /// <param name="state">Begin game state.</param>
+        /// <param name="actorId">Identifier assigned to player.</param>
+        public void OnMatchBegin(IGame game, IState state, int actorId)
         {
             ActorId = actorId;
             currentGame = game;
@@ -123,8 +124,8 @@ namespace Travis.Logic.MCTS
         /// <summary>
         /// Method called when game has been finished.
         /// </summary>
-        /// <param name="payoffs">Payoffs received from game.</param>
-        public void OnMatchFinished(IDictionary<int, double> payoffs)
+        /// <param name="state">Final game state.</param>
+        public void OnMatchFinished(IState state)
         {
         }
 

@@ -4,10 +4,7 @@ using Travis.Games.GreedyNumbers;
 using Travis.Logic.Learning;
 using Travis.Logic.Learning.Model;
 using Travis.Logic.MCTS;
-using System;
 using System.Linq;
-using Travis.Logic.Model;
-using Travis.Logic.Extensions;
 
 namespace Travis.Test.Logic.Learning
 {
@@ -132,7 +129,7 @@ namespace Travis.Test.Logic.Learning
             {
                 startCounter++;
                 var gstate = state as GreedyNumbersState;
-                AssertCompareState(cstate, gstate);
+                CustomAssert.AreEqual(cstate, gstate);
                 Assert.IsFalse(tree.Children.Any());
                 Assert.AreEqual(0, tree.Quality.NumVisited);
                 Assert.IsFalse(tree.Quality.ActorActionsQualities.Any());
@@ -140,14 +137,14 @@ namespace Travis.Test.Logic.Learning
             processor.StateTransition += (node, state, actions) =>
             {
                 var gstate = state as GreedyNumbersState;
-                AssertCompareState(cstate, gstate);
+                CustomAssert.AreEqual(cstate, gstate);
                 cstate.Apply(actions);
             };
             processor.IterationFinished += state =>
             {
                 finishCounter++;
                 var gstate = state as GreedyNumbersState;
-                AssertCompareState(cstate, gstate);
+                CustomAssert.AreEqual(cstate, gstate);
             };
             processor.Process(tree, game, iterations, MCTSActionSelector.Create(game.EnumerateActors()));
             Assert.AreEqual(1, startCounter);
@@ -157,14 +154,6 @@ namespace Travis.Test.Logic.Learning
             var cnode = tree.Children.Values.Single();
             Assert.AreEqual(0, cnode.Children.Count);
             Assert.AreEqual(1, cnode.Quality.NumVisited);
-        }
-
-        private void AssertCompareState(GreedyNumbersState first, GreedyNumbersState second)
-        {
-            Assert.AreEqual(first.CurrentActorId, second.CurrentActorId);
-            Assert.AreEqual(first.IsTerminal, second.IsTerminal);
-            Assert.IsTrue(first.PicksAvailable.DictionaryEquals(second.PicksAvailable));
-            Assert.IsTrue(first.Points.DictionaryEquals(second.Points));
         }
     }
 }
