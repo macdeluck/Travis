@@ -7,6 +7,7 @@ using Travis.Logic.MCTS;
 using System;
 using System.Linq;
 using Travis.Logic.Model;
+using Travis.Logic.Extensions;
 
 namespace Travis.Test.Logic.Learning
 {
@@ -115,6 +116,55 @@ namespace Travis.Test.Logic.Learning
                     Assert.IsTrue(aq.Value.Quality < topActionQuality.Quality);
                 }
             }
+        }
+
+        [TestMethod]
+        public void TreeSearch_EventsTest()
+        {
+            var processor = new TreeSearchProcessor();
+            var iterations = 1;
+            var tree = new TreeNode();
+            var game = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 5 }, { 2, 3 }, { 7, 1 } });
+            var startCounter = 0;
+            var finishCounter = 0;
+            var cstate = game.GetInitialState() as GreedyNumbersState;
+            processor.IterationStarted += (node, state) => 
+            {
+                startCounter++;
+                var gstate = state as GreedyNumbersState;
+                AssertCompareState(cstate, gstate);
+                Assert.IsFalse(tree.Children.Any());
+                Assert.AreEqual(0, tree.Quality.NumVisited);
+                Assert.IsFalse(tree.Quality.ActorActionsQualities.Any());
+            };
+            processor.StateTransition += (node, state, actions) =>
+            {
+                var gstate = state as GreedyNumbersState;
+                AssertCompareState(cstate, gstate);
+                cstate.Apply(actions);
+            };
+            processor.IterationFinished += state =>
+            {
+                finishCounter++;
+                var gstate = state as GreedyNumbersState;
+                AssertCompareState(cstate, gstate);
+            };
+            processor.Process(tree, game, iterations, MCTSActionSelector.Create(game.EnumerateActors()));
+            Assert.AreEqual(1, startCounter);
+            Assert.AreEqual(1, finishCounter);
+            Assert.AreEqual(1, tree.Children.Count);
+            Assert.AreEqual(1, tree.Quality.NumVisited);
+            var cnode = tree.Children.Values.Single();
+            Assert.AreEqual(0, cnode.Children.Count);
+            Assert.AreEqual(1, cnode.Quality.NumVisited);
+        }
+
+        private void AssertCompareState(GreedyNumbersState first, GreedyNumbersState second)
+        {
+            Assert.AreEqual(first.CurrentActorId, second.CurrentActorId);
+            Assert.AreEqual(first.IsTerminal, second.IsTerminal);
+            Assert.IsTrue(first.PicksAvailable.DictionaryEquals(second.PicksAvailable));
+            Assert.IsTrue(first.Points.DictionaryEquals(second.Points));
         }
     }
 }

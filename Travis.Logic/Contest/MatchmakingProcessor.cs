@@ -46,12 +46,14 @@ namespace Travis.Logic.Contest
         {
             foreach (var kv in actors)
                 kv.Value.OnMatchBegin(kv.Key, game);
+            MatchStarted?.Invoke(game, currentState, actors.Values);
         }
 
         private void OnStateTransition(ActionSet actionSet)
         {
             foreach (var actor in actors.Values)
                 actor.OnStateTransition(currentState, actionSet);
+            StateTransition?.Invoke(game, currentState, actionSet);
         }
         
         private void OnMatchFinished()
@@ -59,7 +61,14 @@ namespace Travis.Logic.Contest
             var payoffs = currentState.GetPayoffs();
             foreach (var actor in actors.Values)
                 actor.OnMatchFinished(payoffs);
+            MatchFinished?.Invoke(game, currentState);
         }
+
+        #region Events
+        public event Action<IGame, IState, IEnumerable<IActor>> MatchStarted;
+        public event Action<IGame, IState, ActionSet> StateTransition;
+        public event Action<IGame, IState> MatchFinished;
+        #endregion
 
         private IGame game;
 

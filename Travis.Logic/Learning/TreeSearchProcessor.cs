@@ -100,6 +100,7 @@ namespace Travis.Logic.Learning
             decisionPath = new Stack<Tuple<TreeNode, ActionSet>>();
             this.actionSelectors = actionSelectors;
             this.game = game;
+            OnStartIteration();
         }
 
         private void PushDecisionPath(ActionSet actionSet)
@@ -158,6 +159,7 @@ namespace Travis.Logic.Learning
 
         private void ApplyActionSet(ActionSet actionSet)
         {
+            OnStateTransition(actionSet);
             PushDecisionPath(actionSet);
             currentState.Apply(actionSet);
         }
@@ -198,6 +200,7 @@ namespace Travis.Logic.Learning
             TreeNode node;
             ActionSet actionSet;
 
+            OnFinishIteration();
             var payoffs = currentState.GetPayoffs();
             while (decisionPath.Any())
             {
@@ -217,6 +220,27 @@ namespace Travis.Logic.Learning
             }
         }
 
+        #endregion
+
+        #region Events
+        public event Action<TreeNode, IState> IterationStarted;
+        public event Action<TreeNode, IState, ActionSet> StateTransition;
+        public event Action<IState> IterationFinished;
+
+        private void OnStartIteration()
+        {
+            IterationStarted?.Invoke(currentNode, currentState);
+        }
+
+        private void OnStateTransition(ActionSet actionSet)
+        {
+            StateTransition?.Invoke(currentNode, currentState, actionSet);
+        }
+
+        private void OnFinishIteration()
+        {
+            IterationFinished?.Invoke(currentState);
+        }
         #endregion
     }
 }
