@@ -156,7 +156,7 @@ namespace Travis.Logic.MCTS
 
         private double GetQualityForAction(int actionId)
         {
-            return currentRoot.Quality.ActionQuality(ActorId, actionId).Quality;
+            return currentRoot.Quality.ActorActionsQualities[ActorId][actionId].Quality;
         }
     }
 }

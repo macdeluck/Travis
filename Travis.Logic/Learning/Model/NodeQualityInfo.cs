@@ -18,24 +18,22 @@ namespace Travis.Logic.Learning.Model
         public Dictionary<int, ActorQualityInfo> ActorActionsQualities { get; set; } = new Dictionary<int, ActorQualityInfo>();
 
         /// <summary>
-        /// Gets <see cref="ActorQualityInfo"/> for actor.
+        /// Checks if exists <see cref="ActorQualityInfo"/> for actor.
         /// </summary>
         /// <param name="actorId">Actor identifier.</param>
-        public ActorQualityInfo ActorQuality(int actorId)
+        public bool ContainsActorQuality(int actorId)
         {
-            if (!ActorActionsQualities.ContainsKey(actorId))
-                ActorActionsQualities.Add(actorId, new ActorQualityInfo());
-            return ActorActionsQualities[actorId];
+            return ActorActionsQualities.ContainsKey(actorId);
         }
 
         /// <summary>
-        /// Gets action quality info for given actor.
+        /// Checks if exists action quality info for given actor.
         /// </summary>
         /// <param name="actorId">Actor identifier.</param>
         /// <param name="actionId">Action identifier.</param>
-        public ActionQualityInfo ActionQuality(int actorId, int actionId)
+        public bool ContainsActionQuality(int actorId, int actionId)
         {
-            return ActorQuality(actorId).ActionQuality(actionId);
+            return ContainsActorQuality(actorId) && ActorActionsQualities[actorId].ContainsActionQuality(actionId);
         }
     }
 }

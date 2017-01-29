@@ -210,7 +210,7 @@ namespace Travis.Logic.Learning
                 {
                     foreach (var action in actionSet.Actions.Values)
                     {
-                        var actionInfo = node.Quality.ActionQuality(action.ActorId, action.ActionId);
+                        var actionInfo = GetActionInfo(node, action);
                         var S = actionInfo.Quality;
                         var n = actionInfo.NumSelected;
                         actionInfo.Quality = (n * S + payoffs[action.ActorId]) / (n + 1);
@@ -218,6 +218,23 @@ namespace Travis.Logic.Learning
                     }
                 }
             }
+        }
+
+        private static ActionQualityInfo GetActionInfo(TreeNode node, IAction action)
+        {
+            ActorQualityInfo actorInfo;
+            if (!node.Quality.ActorActionsQualities.TryGetValue(action.ActorId, out actorInfo))
+            {
+                actorInfo = new ActorQualityInfo();
+                node.Quality.ActorActionsQualities.Add(action.ActorId, actorInfo);
+            }
+            ActionQualityInfo actionInfo;
+            if (!actorInfo.TryGetValue(action.ActionId, out actionInfo))
+            {
+                actionInfo = new ActionQualityInfo();
+                actorInfo.Add(action.ActionId, actionInfo);
+            }
+            return actionInfo;
         }
 
         #endregion

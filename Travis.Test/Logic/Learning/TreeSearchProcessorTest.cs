@@ -104,7 +104,7 @@ namespace Travis.Test.Logic.Learning
             var beginState = game.GetInitialState() as GreedyNumbersState;
             var topAction = beginState.GetActionsForActor(beginState.CurrentActorId).Values.Cast<GreedyNumbersAction>().FirstOrDefault(a => a.PickValue == 7);
             var currentActorQualities = tree.Quality.ActorActionsQualities[topAction.ActorId];
-            var topActionQuality = currentActorQualities.ActionQuality(topAction.ActionId);
+            var topActionQuality = currentActorQualities[topAction.ActionId];
             foreach (var aq in currentActorQualities)
             {
                 if (aq.Key != topAction.ActionId)

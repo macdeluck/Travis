@@ -8,14 +8,12 @@ namespace Travis.Logic.Learning.Model
     public class ActorQualityInfo : Dictionary<int, ActionQualityInfo>
     {
         /// <summary>
-        /// Gets action quality info.
+        /// Checks if exists quality info for action.
         /// </summary>
         /// <param name="actionId">Action identifier took from <see cref="IAction.ActionId"/>.</param>
-        public ActionQualityInfo ActionQuality(int actionId)
+        public bool ContainsActionQuality(int actionId)
         {
-            if (!ContainsKey(actionId))
-                Add(actionId, new ActionQualityInfo());
-            return this[actionId];
+            return ContainsKey(actionId);
         }
     }
 }

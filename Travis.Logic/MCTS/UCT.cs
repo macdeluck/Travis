@@ -39,12 +39,12 @@ namespace Travis.Logic.MCTS
             var actions = state.GetActionsForActor(actorId);
             foreach (var action in actions.Values)
             {
-                if (node.Quality.ActionQuality(action.ActorId, action.ActionId).NumSelected == 0)
+                if (!node.Quality.ContainsActionQuality(action.ActorId, action.ActionId))
                     return action;
             }
             return actions.Values.ArgMax(action =>
             {
-                var actionInfo = node.Quality.ActionQuality(action.ActorId, action.ActionId);
+                var actionInfo = node.Quality.ActorActionsQualities[action.ActorId][action.ActionId];
                 var q = CalculateUCT(Coefficient, actionInfo.Quality, actionInfo.NumSelected, node.Quality.NumVisited);
                 return q;
             }).RandomElement();
