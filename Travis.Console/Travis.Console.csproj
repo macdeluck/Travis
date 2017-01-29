@@ -7,8 +7,8 @@
     <ProjectGuid>{62E4ED1C-435D-4DD0-B690-6D2BC729B416}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Travis.TreeBuilder</RootNamespace>
-    <AssemblyName>Travis.TreeBuilder</AssemblyName>
+    <RootNamespace>Travis.Console</RootNamespace>
+    <AssemblyName>Travis.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

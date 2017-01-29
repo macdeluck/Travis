@@ -5,7 +5,7 @@ using Travis.Logic.Learning;
 using Travis.Logic.Learning.Model;
 using Travis.Logic.MCTS;
 
-namespace Travis.TreeBuilder
+namespace Travis.Console
 {
     /// <summary>
     /// Class which contains program entry point.
