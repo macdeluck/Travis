@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using Travis.Games.GreedyNumbers;
-using Travis.Logic.Contest;
-using Travis.Logic.Learning;
-using Travis.Logic.Learning.Model;
-using Travis.Logic.MCTS;
-
-namespace Travis.Console
+﻿namespace Travis.Console
 {
     /// <summary>
     /// Class which contains program entry point.
@@ -15,26 +8,24 @@ namespace Travis.Console
         /// <summary>
         /// Program entry point.
         /// </summary>
-        public static void Main()
+        public static int Main(string[] argv)
         {
-            TestGame();
-        }
-
-        private static void TestGame()
-        {
-            var processor = new MatchmakingProcessor();
-            var game = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 5 }, { 2, 3 }, { 7, 1 } });
-            var firstPlayer = new MCTSActor(5);
-            var secondPlayer = new MCTSActor(1000);
-            processor.Process(game, new[] { firstPlayer, secondPlayer });
-        }
-
-        private static void TestTreeBuild()
-        {
-            var processor = new TreeSearchProcessor();
-            var tree = new TreeNode();
-            var game = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 5 }, { 2, 3 }, { 7, 1 } });
-            processor.Process(tree, game, 1000, MCTSActionSelector.Create(game.EnumerateActors()));
+            var cmdParser = new CommandlineParser();
+            cmdParser.Parse(argv);
+            switch (cmdParser.ProgramCommand)
+            {
+                case Command.Unknown:
+                case Command.NoCommand:
+                case Command.Help:
+                    {
+                        System.Console.WriteLine(cmdParser.OutputMessage);
+                        return 1;
+                    }
+                case Command.Learn:
+                    return 0;
+                default:
+                    return 255;
+            }
         }
     }
 }

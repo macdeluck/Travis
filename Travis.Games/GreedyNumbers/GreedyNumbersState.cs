@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Travis.Logic.Extensions;
@@ -41,6 +42,9 @@ namespace Travis.Games.GreedyNumbers
         /// </summary>
         public IDictionary<int, int> Points { get; private set; }
 
+        /// <summary>
+        /// Returns true if state is terminal.
+        /// </summary>
         public bool IsTerminal => !PicksAvailable.Any();
 
         /// <summary>
@@ -48,6 +52,10 @@ namespace Travis.Games.GreedyNumbers
         /// </summary>
         public int CurrentActorId { get; private set; }
 
+        /// <summary>
+        /// Applies action set to state and switches to next state.
+        /// </summary>
+        /// <param name="actionSet">A set of actions taken by actors.</param>
         public void Apply(ActionSet actionSet)
         {
             var action = (GreedyNumbersAction)actionSet.Actions[CurrentActorId];
@@ -58,11 +66,18 @@ namespace Travis.Games.GreedyNumbers
             CurrentActorId = ParentGame.NextPlayer(CurrentActorId);
         }
 
+        /// <summary>
+        /// Clones itself.
+        /// </summary>
         public IState Clone()
         {
             return new GreedyNumbersState(PicksAvailable.Clone(), Points.Clone(), CurrentActorId, ParentGame);
         }
 
+        /// <summary>
+        /// Creates action set from chosen actions.
+        /// </summary>
+        /// <param name="actions">Actions chosen by actors keyed with their ids.</param>
         public ActionSet CreateActionSet(IDictionary<int, IAction> actions)
         {
             return new ActionSet()
@@ -72,6 +87,11 @@ namespace Travis.Games.GreedyNumbers
             };
         }
 
+        /// <summary>
+        /// Returns available actions to take by actor.
+        /// <param name="actorId">Actor identifier.</param>
+        /// </summary>
+        /// <returns>Dictionary of actions keyed with theirs identifiers.</returns>
         public IDictionary<int, IAction> GetActionsForActor(int actorId)
         {
             if (actorId == CurrentActorId)
@@ -96,8 +116,14 @@ namespace Travis.Games.GreedyNumbers
             return noopDict;
         }
 
+        /// <summary>
+        /// Gets payoffs for terminal state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Should be thrown when method called on non terminal state.</exception>
         public IDictionary<int, double> GetPayoffs()
         {
+            if (!IsTerminal)
+                throw new InvalidOperationException();
             var topPoints = -1;
             var topPointsCount = 0;
             foreach (var kv in Points)
@@ -117,6 +143,9 @@ namespace Travis.Games.GreedyNumbers
                 kv => kv.Value != topPoints ? 0 : topPointsCount > 1 ? 0.5 : 1);
         }
 
+        /// <summary>
+        /// Converts game state to its string representation.
+        /// </summary>
         public override string ToString()
         {
             var sb = new StringBuilder();

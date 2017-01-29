@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Travis.Logic.Model
 {
@@ -9,7 +10,9 @@ namespace Travis.Logic.Model
     {
         /// <summary>
         /// Returns available actions to take by actor.
+        /// <param name="actorId">Actor identifier.</param>
         /// </summary>
+        /// <returns>Dictionary of actions keyed with theirs identifiers.</returns>
         IDictionary<int, IAction> GetActionsForActor(int actorId);
 
         /// <summary>

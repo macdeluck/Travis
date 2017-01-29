@@ -4,13 +4,16 @@ using System.Linq;
 
 namespace Travis.Logic.Extensions
 {
+    /// <summary>
+    /// Contains additional methods for <see cref="IEnumerable{T}"/>.
+    /// </summary>
     public static class EnumerableExtensions
     {
-
         /// <summary>
         /// Chooses random element from collection.
         /// </summary>
         /// <typeparam name="T">Type of collection element.</typeparam>
+        /// <param name="collection">Collection to work on.</param>
         /// <returns>Random element from collection.</returns>
         public static T RandomElement<T>(this IEnumerable<T> collection)
         {
@@ -21,6 +24,7 @@ namespace Travis.Logic.Extensions
         /// Chooses random element from collection.
         /// </summary>
         /// <typeparam name="T">Type of collection element.</typeparam>
+        /// <param name="collection">Collection to work on.</param>
         /// <param name="random">Random object used to select element.</param>
         /// <returns>Random element from collection.</returns>
         public static T RandomElement<T>(this IEnumerable<T> collection, Random random)

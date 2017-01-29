@@ -24,16 +24,25 @@
             MaxIterations = maxIterations;
         }
 
+        /// <summary>
+        /// Checks if there is computational budget left to use.
+        /// </summary>
         public bool HasBudgetLeft()
         {
             return Iteration < MaxIterations;
         }
 
+        /// <summary>
+        /// Indicates next iteration.
+        /// </summary>
         public void Next()
         {
             Iteration++;
         }
 
+        /// <summary>
+        /// Starts using computational budget.
+        /// </summary>
         public void Start()
         {
             Iteration = 0;

@@ -240,8 +240,19 @@ namespace Travis.Logic.Learning
         #endregion
 
         #region Events
+        /// <summary>
+        /// Event invoked when next algorithm iteration has been started.
+        /// </summary>
         public event Action<TreeNode, IState> IterationStarted;
+
+        /// <summary>
+        /// Event invoked when game state during iteration has been started.
+        /// </summary>
         public event Action<TreeNode, IState, ActionSet> StateTransition;
+
+        /// <summary>
+        /// Event invoked when algorithm iteration has been finished.
+        /// </summary>
         public event Action<IState> IterationFinished;
 
         private void OnStartIteration()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Travis.Logic.Learning.Model;
 
 namespace Travis.Logic.Model
 {

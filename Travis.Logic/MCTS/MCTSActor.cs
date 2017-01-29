@@ -12,14 +12,29 @@ namespace Travis.Logic.MCTS
     /// </summary>
     public class MCTSActor : IActor
     {
+        /// <summary>
+        /// Processor used to learn tree.
+        /// </summary>
         protected TreeSearchProcessor learningProcessor;
 
+        /// <summary>
+        /// Current root node.
+        /// </summary>
         protected TreeNode currentRoot;
 
+        /// <summary>
+        /// Action selectors used to choose moves.
+        /// </summary>
         protected IDictionary<int, ActionSelector> actionSelectors;
 
+        /// <summary>
+        /// Current game.
+        /// </summary>
         protected IGame currentGame;
 
+        /// <summary>
+        /// Current game state.
+        /// </summary>
         protected IState currentState;
 
         /// <summary>
@@ -59,7 +74,7 @@ namespace Travis.Logic.MCTS
         /// <summary>
         /// Creates new instance of MCTS actor with no budget for initial tree expansion.
         /// </summary>
-        /// <param name="startTimeBudget">Budget to initial tree expansion.</param>
+        /// <param name="playTimeBudget">Budget to select action during game.</param>
         /// <param name="actionSelectorBuilder">Builder of action selectors on match begin.</param>
         public MCTSActor(IBudgetProvider playTimeBudget, IActionSelectorBuilder actionSelectorBuilder)
             : this(new IterationBasedBudgetProvider(0), playTimeBudget, actionSelectorBuilder)

@@ -18,7 +18,6 @@
         /// <summary>
         /// Checks if there is computational budget left to use.
         /// </summary>
-        /// <returns></returns>
         bool HasBudgetLeft();
     }
 }

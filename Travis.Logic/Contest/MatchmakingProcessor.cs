@@ -65,8 +65,19 @@ namespace Travis.Logic.Contest
         }
 
         #region Events
+        /// <summary>
+        /// Event invoked when match has been started.
+        /// </summary>
         public event Action<IGame, IState, IEnumerable<IActor>> MatchStarted;
+
+        /// <summary>
+        /// Event invoked when game state has been changed.
+        /// </summary>
         public event Action<IGame, IState, ActionSet> StateTransition;
+
+        /// <summary>
+        /// Event invoked when match has been finished.
+        /// </summary>
         public event Action<IGame, IState> MatchFinished;
         #endregion
 

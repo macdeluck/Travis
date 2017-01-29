@@ -21,6 +21,9 @@ namespace Travis.Games.GreedyNumbers
             InitialPickValues = pickValues;
         }
 
+        /// <summary>
+        /// Number of actors available in game.
+        /// </summary>
         public int NumberOfActors { get; private set; }
 
         /// <summary>
@@ -28,21 +31,34 @@ namespace Travis.Games.GreedyNumbers
         /// </summary>
         public IDictionary<int, int> InitialPickValues { get; private set; }
 
+        /// <summary>
+        /// Enumerates game actor's identifiers.
+        /// </summary>
         public IEnumerable<int> EnumerateActors()
         {
             return Enumerable.Range(0, NumberOfActors);
         }
 
+        /// <summary>
+        /// Returns next actor identifier.
+        /// </summary>
+        /// <param name="actorId">Current actor identifier.</param>
         public int NextPlayer(int actorId)
         {
             return (actorId + 1) % NumberOfActors;
         }
 
+        /// <summary>
+        /// Returns initial state for game.
+        /// </summary>
         public IState GetInitialState()
         {
             return new GreedyNumbersState(InitialPickValues.Clone(), EnumerateActors().ToDictionary(i => i, i => 0), EnumerateActors().First(), this);
         }
 
+        /// <summary>
+        /// Returns name of game.
+        /// </summary>
         public string Name => nameof(GreedyNumbers);
     }
 }

@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Travis.Logic.Extensions
 {
+    /// <summary>
+    /// Contains additional methods for <see cref="IDictionary{TKey, TValue}"/>.
+    /// </summary>
     public static class DictionaryExtensions
     {
         /// <summary>

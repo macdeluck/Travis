@@ -5,14 +5,15 @@ using Travis.Logic.Model;
 
 namespace Travis.Logic.MCTS
 {
+    /// <summary>
+    /// Represents tree policy using UCT algorithm.
+    /// </summary>
     public class UCT : ITreePolicy
     {
-        public UCT()
-        {
-            Coefficient = 1;
-        }
-
-        public double Coefficient { get; set; }
+        /// <summary>
+        /// Coefficient used to change balance between exploration and exploitation.
+        /// </summary>
+        public double Coefficient { get; set; } = 1;
 
         /// <summary>
         /// Calculates UCT value.
