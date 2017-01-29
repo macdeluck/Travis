@@ -16,7 +16,8 @@ namespace Travis.Logic.Contest
         /// </summary>
         /// <param name="game">Game to execute.</param>
         /// <param name="actors">Actors taking part in <paramref name="game"/> exeution.</param>
-        public void Process(IGame game, IEnumerable<IActor> actors)
+        /// <returns>Final game state.</returns>
+        public IState Process(IGame game, IEnumerable<IActor> actors)
         {
             InitGame(game, actors);
             OnMatchBegin();
@@ -27,6 +28,7 @@ namespace Travis.Logic.Contest
                 currentState.Apply(actions);
             }
             OnMatchFinished();
+            return currentState;
         }
 
         private ActionSet GetActionSet()

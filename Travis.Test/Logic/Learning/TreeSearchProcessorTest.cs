@@ -23,7 +23,7 @@ namespace Travis.Test.Logic.Learning
             var game = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 1000 }, { 2, 3 }, { 5, 12 }, { 12000, 1 } });
             processor.Process(tree, game, iterations, MCTSActionSelector.Create(game.EnumerateActors()));
             Assert.AreEqual(iterations, tree.Quality.NumVisited);
-            AssertTreeNumVisited(tree, iterations);
+            CustomAssert.AssertTree(tree, iterations);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Travis.Test.Logic.Learning
             var game = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 3 } });
             processor.Process(tree, game, iterations, MCTSActionSelector.Create(game.EnumerateActors()));
             Assert.AreEqual(iterations, tree.Quality.NumVisited);
-            AssertTreeNumVisited(tree, iterations);
+            CustomAssert.AssertTree(tree, iterations);
         }
 
         /// <summary>
@@ -53,41 +53,12 @@ namespace Travis.Test.Logic.Learning
             var game = new GreedyNumbers(2, new Dictionary<int, int>() { { 1, 1 } });
             processor.Process(tree, game, iterations, MCTSActionSelector.Create(game.EnumerateActors()));
             Assert.AreEqual(iterations, tree.Quality.NumVisited);
-            AssertTreeNumVisited(tree, iterations);
+            CustomAssert.AssertTree(tree, iterations);
 
             var newIterations = 999;
             processor.Process(tree, game, newIterations, MCTSActionSelector.Create(game.EnumerateActors()));
             Assert.AreEqual(iterations + newIterations, tree.Quality.NumVisited);
-            AssertTreeNumVisited(tree, iterations + newIterations);
-        }
-
-        private void AssertTreeNumVisited(TreeNode node, int iterations, int depth = 0)
-        {
-            if (node.IsTerminal)
-            {
-                Assert.IsFalse(node.Children.Any());
-                Assert.IsFalse(node.Quality.ActorActionsQualities.Any());
-                return;
-            }
-
-            // Sum of children num visited is equal to parent node num visited decremented by one.
-            // The exception is for root node, because root node is initially not visited.
-            Assert.AreEqual(iterations - (depth == 0 ? 0 : 1), node.Children.Sum(ch => ch.Value.Quality.NumVisited), "Incorrect at depth {0}", depth);
-
-            foreach (var actorActionsQuality in node.Quality.ActorActionsQualities.Values)
-            {
-                // Action to appear in quality info, must be visited at least once.
-                Assert.IsFalse(actorActionsQuality.Values.Any(q => q.NumSelected == 0));
-
-                // Sum of num visited for actor actions must be equal to node's num visited.
-                Assert.AreEqual(node.Quality.NumVisited, actorActionsQuality.Values.Sum(q => q.NumSelected));
-            }
-
-            // Assert child node.
-            foreach (var childNode in node.Children.Values)
-            {
-                AssertTreeNumVisited(childNode, childNode.Quality.NumVisited, depth + 1);
-            }
+            CustomAssert.AssertTree(tree, iterations + newIterations);
         }
 
         /// <summary>

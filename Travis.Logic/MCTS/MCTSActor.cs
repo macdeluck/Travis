@@ -12,15 +12,15 @@ namespace Travis.Logic.MCTS
     /// </summary>
     public class MCTSActor : IActor
     {
-        private TreeSearchProcessor learningProcessor;
+        protected TreeSearchProcessor learningProcessor;
 
-        private TreeNode currentRoot;
+        protected TreeNode currentRoot;
 
-        private IDictionary<int, ActionSelector> actionSelectors;
+        protected IDictionary<int, ActionSelector> actionSelectors;
 
-        private IGame currentGame;
+        protected IGame currentGame;
 
-        private IState currentState;
+        protected IState currentState;
 
         /// <summary>
         /// Budget provider for initial tree expansion.
@@ -104,7 +104,7 @@ namespace Travis.Logic.MCTS
         /// <param name="game">Game which is executed.</param>
         /// <param name="state">Begin game state.</param>
         /// <param name="actorId">Identifier assigned to player.</param>
-        public void OnMatchBegin(IGame game, IState state, int actorId)
+        public virtual void OnMatchBegin(IGame game, IState state, int actorId)
         {
             ActorId = actorId;
             currentGame = game;
@@ -125,7 +125,7 @@ namespace Travis.Logic.MCTS
         /// Method called when game has been finished.
         /// </summary>
         /// <param name="state">Final game state.</param>
-        public void OnMatchFinished(IState state)
+        public virtual void OnMatchFinished(IState state)
         {
         }
 
@@ -134,7 +134,7 @@ namespace Travis.Logic.MCTS
         /// </summary>
         /// <param name="state">State which will be <paramref name="actionSet"/> applied to.</param>
         /// <param name="actionSet">Actions selected by actors which will be applied to <paramref name="state"/>.</param>
-        public void OnStateTransition(IState state, ActionSet actionSet)
+        public virtual void OnStateTransition(IState state, ActionSet actionSet)
         {
             currentState.Apply(actionSet);
             if (!currentRoot.Children.ContainsKey(actionSet.ActionSetId))
@@ -146,7 +146,7 @@ namespace Travis.Logic.MCTS
         /// Method called when actor is asked to choose his action in given state.
         /// </summary>
         /// <param name="state">State in which actor should choose his action.</param>
-        public IAction SelectAction(IState state)
+        public virtual IAction SelectAction(IState state)
         {
             ProcessLearning();
             var availableActions = currentState.GetActionsForActor(ActorId);

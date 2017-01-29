@@ -5,6 +5,7 @@ using Travis.Games.GreedyNumbers;
 using Travis.Logic.Extensions;
 using Travis.Logic.Model;
 using System;
+using Travis.Logic.Learning.Model;
 
 namespace Travis.Test
 {
@@ -62,6 +63,41 @@ namespace Travis.Test
             var firstActions = first.Actions.ToDictionary(kv => kv.Key, kv => kv.Value as GreedyNumbersAction);
             var secondsActions = second.Actions.ToDictionary(kv => kv.Key, kv => kv.Value as GreedyNumbersAction);
             Assert.IsTrue(firstActions.DictionaryEquals(secondsActions, new GreedyNumbersActionAssertComparer()));
+        }
+
+        /// <summary>
+        /// Checks tree structure beggining from node.
+        /// </summary>
+        /// <param name="node">Root node to check.</param>
+        /// <param name="iterations">Iterations of learning performed beggining at given root.</param>
+        /// <param name="isRealGameRoot">True if it is real game root (was initially created).</param>
+        public static void AssertTree(TreeNode node, int iterations, bool isRealGameRoot = true)
+        {
+            if (node.IsTerminal)
+            {
+                Assert.IsFalse(node.Children.Any());
+                Assert.IsFalse(node.Quality.ActorActionsQualities.Any());
+                return;
+            }
+
+            // Sum of children num visited is equal to parent node num visited decremented by one.
+            // The exception is for root node, because root node is initially not visited.
+            Assert.AreEqual(iterations - (isRealGameRoot ? 0 : 1), node.Children.Sum(ch => ch.Value.Quality.NumVisited), "Incorrect at root: {0}", isRealGameRoot);
+
+            foreach (var actorActionsQuality in node.Quality.ActorActionsQualities.Values)
+            {
+                // Action to appear in quality info, must be visited at least once.
+                Assert.IsFalse(actorActionsQuality.Values.Any(q => q.NumSelected == 0));
+
+                // Sum of num visited for actor actions must be equal to node's num visited.
+                Assert.AreEqual(node.Quality.NumVisited, actorActionsQuality.Values.Sum(q => q.NumSelected));
+            }
+
+            // Assert child node.
+            foreach (var childNode in node.Children.Values)
+            {
+                AssertTree(childNode, childNode.Quality.NumVisited, false);
+            }
         }
     }
 }
