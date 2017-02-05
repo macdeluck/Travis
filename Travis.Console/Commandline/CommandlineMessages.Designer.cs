@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Travis.Console {
+namespace Travis.Console.Commandline {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Travis.Console {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Messages {
+    internal class CommandlineMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Messages() {
+        internal CommandlineMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Travis.Console {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Travis.Console.Messages", typeof(Messages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Travis.Console.Commandline.CommandlineMessages", typeof(CommandlineMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,39 +61,74 @@ namespace Travis.Console {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USAGE: Travis.Console.exe learn game:name[,arg1,...,argN]
-        ///    [budget:name,arg1,...,argN] [source:path] [output:NONE|DEFAULT|path]
-        ///    [selectors:name1,...,nameN]
-        ///    
-        ///    Learns tree for specified game.
-        ///  
-        ///    Parameters:
-        ///      game - game to learn
-        ///        name          - name of game to learn
-        ///        arg1,...,argN - optional arguments specific to particular game.
-        ///        
-        ///      budget - computational budget (default - budget:iteration,1000)
-        ///        name          - name of budget provider
-        ///     [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Invalid parameter {0} for command {1} at position {2}: {3}..
         /// </summary>
-        internal static string HelpLearn {
+        internal static string InvalidCommandParameterDetailedMessage {
             get {
-                return ResourceManager.GetString("HelpLearn", resourceCulture);
+                return ResourceManager.GetString("InvalidCommandParameterDetailedMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USAGE: Travis.Console.exe COMMAND [arguments]
-        ///    
-        ///    Available commands:
-        ///      help  - shows program or command help
-        ///      learn - learns tree model
-        ///    
-        ///    For detail info call: Travis.Console.exe help COMMAND.
+        ///   Looks up a localized string similar to Invalid parameter {0} for command {1} at position {2}..
         /// </summary>
-        internal static string HelpMessage {
+        internal static string InvalidCommandParameterMessage {
             get {
-                return ResourceManager.GetString("HelpMessage", resourceCulture);
+                return ResourceManager.GetString("InvalidCommandParameterMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to parameter should not have any non keyed arguments.
+        /// </summary>
+        internal static string ParameterKeyedArgumentsOnlyAllowed {
+            get {
+                return ResourceManager.GetString("ParameterKeyedArgumentsOnlyAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to parameter should not have any keyed arguments.
+        /// </summary>
+        internal static string ParameterNoKeyedArgumentsAllowed {
+            get {
+                return ResourceManager.GetString("ParameterNoKeyedArgumentsAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Redefinition of parameter {0} at position {1}..
+        /// </summary>
+        internal static string ParameterRedefinitionMessage {
+            get {
+                return ResourceManager.GetString("ParameterRedefinitionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to parameter should have exactly one non keyed argument.
+        /// </summary>
+        internal static string ParameterSingleArgumentAllowed {
+            get {
+                return ResourceManager.GetString("ParameterSingleArgumentAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntax error at position {0}: {1}..
+        /// </summary>
+        internal static string SyntaxErrorDetailedMessage {
+            get {
+                return ResourceManager.GetString("SyntaxErrorDetailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Syntax error at position {0}..
+        /// </summary>
+        internal static string SyntaxErrorMessage {
+            get {
+                return ResourceManager.GetString("SyntaxErrorMessage", resourceCulture);
             }
         }
         

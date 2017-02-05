@@ -38,32 +38,66 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Travis.Games\Travis.Games.csproj">
+      <Project>{3e6a8b9b-f6c6-4aaa-a838-6a8bcac3b063}</Project>
+      <Name>Travis.Games</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Travis.Logic\Travis.Logic.csproj">
       <Project>{070C9A99-8DEF-4750-B9AA-1C043F2B3988}</Project>
       <Name>Travis.Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandlineParser.cs" />
-    <Compile Include="Messages.Designer.cs">
+    <Compile Include="Commandline\CommandlineContext.cs" />
+    <Compile Include="Commandline\CommandlineMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Messages.resx</DependentUpon>
+      <DependentUpon>CommandlineMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="Commandline\CommandlineParseException.cs" />
+    <Compile Include="Commandline\CommandlineParser.cs" />
+    <Compile Include="Commandline\CommandlineTokenizer.cs" />
+    <Compile Include="Commandline\InvalidCommandParameterException.cs" />
+    <Compile Include="Commandline\ParameterRedefinitionException.cs" />
+    <Compile Include="Commandline\SyntaxException.cs" />
+    <Compile Include="Commandline\Tokens\CommandlineParameterToken.cs" />
+    <Compile Include="Commandline\Tokens\CommandToken.cs" />
+    <Compile Include="Commandline\Tokens\HelpCommandToken.cs" />
+    <Compile Include="Commandline\Tokens\LearnCommand.cs" />
+    <Compile Include="Commandline\Tokens\TokenMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TokenMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Commandline\Tokens\UnknownToken.cs" />
+    <Compile Include="LearnProgram.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Commandline\Tokens\ICommandlineToken.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Spring.Core, Version=2.0.1.45000, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spring.Core.2.0.1\lib\net45\Spring.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Messages.resx">
+    <EmbeddedResource Include="Commandline\CommandlineMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommandlineMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Commandline\Tokens\TokenMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TokenMessages.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
-      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

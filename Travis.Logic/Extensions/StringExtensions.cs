@@ -14,5 +14,14 @@
         {
             return string.Format(formatString, args);
         }
+
+        /// <summary>
+        /// Checks if given string is null or empty.
+        /// </summary>
+        /// <param name="str">String to check.</param>
+        public static bool HasValue(this string str)
+        {
+            return !string.IsNullOrEmpty(str);
+        }
     }
 }

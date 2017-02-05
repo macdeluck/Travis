@@ -117,6 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CommandlineParameterArgumentDefinedMultipleTimes" xml:space="preserve">
+    <value>Parameter argument {0} was already defined.</value>
+  </data>
+  <data name="CommandlineParameterInvalidPrefix" xml:space="preserve">
+    <value>Parameter declaration should start with {0}.</value>
+  </data>
+  <data name="CommandlineParameterNoName" xml:space="preserve">
+    <value>Parameter declaration has no name supplied.</value>
+  </data>
+  <data name="HelpLearn" xml:space="preserve">
+    <value>USAGE: Travis.Console.exe learn /game:name
+    [/budget:name,argumentlist] [/selectors:name1,...,nameN]
+    
+    Learns tree for specified game.
+  
+    Parameters:
+      /game - game to learn
+        name - name of game to learn
+        
+      /budget - computational budget (default - budget:iteration,1000)
+        name         - name of budget provider
+        argumentlist - optional comma-separated argument list specific to
+                       particular budget provider. For example:
+                       budget:iterations, maxIterations=1000
+      
+      /selectors - list of action selectors used to learn tree. Standard MCTS
+                  action selectors are used by default (UCT/random).
+        name1,...,nameN - names of action selectors
+      
+      All specific names used in program may be registered in
+      Tree.Console.exe.config file in spring.objects section.</value>
+  </data>
   <data name="HelpMessage" xml:space="preserve">
     <value>USAGE: Travis.Console.exe COMMAND [arguments]
     
@@ -126,41 +158,7 @@
     
     For detail info call: Travis.Console.exe help COMMAND</value>
   </data>
-  <data name="HelpLearn" xml:space="preserve">
-    <value>USAGE: Travis.Console.exe learn game:name[,arg1,...,argN]
-    [budget:name,arg1,...,argN] [source:path] [output:NONE|DEFAULT|path]
-    [selectors:name1,...,nameN]
-    
-    Learns tree for specified game.
-  
-    Parameters:
-      game - game to learn
-        name          - name of game to learn
-        arg1,...,argN - optional arguments specific to particular game.
-        
-      budget - computational budget (default - budget:iteration,1000)
-        name          - name of budget provider
-        arg1,...,argN - optional arguments specific to particular budget 
-                        provider (for example number of iterations).
-      
-      source - learn tree using pre-learned xml tree
-        path - path to pre-learned model
-      
-      output - specifies where to output tree (default - output:NONE)
-        NONE    - does not output tree anywhere
-        DEFAULT - outputs tree to deafult output stream
-        path    - path where to output learned tree
-      
-      selectors - list of action selectors used to learn tree. Standard MCTS
-                  action selectors are used as default (UCT/random).
-        name1,...,nameN - names of action selectors
-      
-      All specific names used in program may be registered in
-      Tree.Console.exe.config file in autofac section.</value>
-  </data>
-  <data name="UnknownCommand" xml:space="preserve">
-    <value>Unknown command: {0}
-
-{1}</value>
+  <data name="UnexpectedCharacter" xml:space="preserve">
+    <value>Unexpected character '{0}'.</value>
   </data>
 </root>
