@@ -43,6 +43,10 @@
     <Compile Include="GreedyNumbers\GreedyNumbers.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersAction.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersState.cs" />
+    <Compile Include="MultipleTicTacToe\MultipleTicTacToe.cs" />
+    <Compile Include="MultipleTicTacToe\MultipleTicTacToeAction.cs" />
+    <Compile Include="MultipleTicTacToe\MultipleTicTacToeState.Board.cs" />
+    <Compile Include="MultipleTicTacToe\MultipleTicTacToeState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
