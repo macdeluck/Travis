@@ -10,6 +10,17 @@ namespace Travis.Logic.Extensions
     public static class EnumerableExtensions
     {
         /// <summary>
+        /// Concatenates the members of a collection, using specified separater between each member.
+        /// </summary>
+        /// <typeparam name="T">Type of collection element.</typeparam>
+        /// <param name="collection">A collection that contains the objects to concatenate.</param>
+        /// <param name="separator">The string used as separator.</param>
+        public static string JoinString<T>(this IEnumerable<T> collection, string separator)
+        {
+            return string.Join(separator, collection.Select(item => item?.ToString()));
+        }
+
+        /// <summary>
         /// Chooses random element from collection.
         /// </summary>
         /// <typeparam name="T">Type of collection element.</typeparam>
