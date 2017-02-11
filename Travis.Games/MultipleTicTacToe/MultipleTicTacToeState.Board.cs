@@ -51,7 +51,7 @@ namespace Travis.Games.MultipleTicTacToe
         /// <summary>
         /// Single board length.
         /// </summary>
-        public const int Span = 3;
+        public const int BoardSize = 3;
 
         /// <summary>
         /// Returns number of available boards.
@@ -105,9 +105,9 @@ namespace Travis.Games.MultipleTicTacToe
             {
                 get
                 {
-                    if (x >= Span)
+                    if (x >= BoardSize)
                         throw new ArgumentOutOfRangeException(nameof(x));
-                    if (y >= Span)
+                    if (y >= BoardSize)
                         throw new ArgumentOutOfRangeException(nameof(y));
                     return _owner.BoardData[_minX + x, _minY + y];
                 }
@@ -116,7 +116,7 @@ namespace Travis.Games.MultipleTicTacToe
 
         private void SetBoardField(int boardNum, int x, int y, MTTTPlayer value)
         {
-            BoardData[(boardNum % Span) * Span + x, (boardNum / Span) * Span] = value;
+            BoardData[(boardNum % BoardSize) * BoardSize + x, (boardNum / BoardSize) * BoardSize + y] = value;
         }
 
         private Board[] _boards;
@@ -131,7 +131,7 @@ namespace Travis.Games.MultipleTicTacToe
             {
                 _boards = new Board[BoardsNum];
                 for (int i = 0; i < BoardsNum; i++)
-                    _boards[i] = new Board(this, i, (i % Span) * Span, (i / Span) * Span);
+                    _boards[i] = new Board(this, i, (i % BoardSize) * BoardSize, (i / BoardSize) * BoardSize);
             }
         }
 
@@ -156,18 +156,18 @@ namespace Travis.Games.MultipleTicTacToe
             if (!_isTerminal.HasValue)
             {
                 var winningBoard = GetBoard(WinningBoard);
-                int[] xsum = Enumerable.Repeat(0, Span).ToArray();
-                int[] ysum = Enumerable.Repeat(0, Span).ToArray();
+                int[] xsum = Enumerable.Repeat(0, BoardSize).ToArray();
+                int[] ysum = Enumerable.Repeat(0, BoardSize).ToArray();
                 int xskew = 0;
                 int yskew = 0;
                 int fieldsFilled = 0;
-                for (int x = 0; x < Span; x++)
-                    for (int y = 0; y < Span; y++)
+                for (int x = 0; x < BoardSize; x++)
+                    for (int y = 0; y < BoardSize; y++)
                     {
                         int fieldVal = winningBoard[x, y] == MTTTPlayer.XPlayer ? 1 : winningBoard[x, y] == MTTTPlayer.YPlayer ? -1 : 0;
                         if (x == y)
                             xskew += fieldVal;
-                        if (x == Span - 1 - y)
+                        if (x == BoardSize - 1 - y)
                             yskew += fieldVal;
                         xsum[x] += fieldVal;
                         xsum[y] += fieldVal;
@@ -178,12 +178,12 @@ namespace Travis.Games.MultipleTicTacToe
                 CheckValueForWinningPlayer(yskew);
                 if (_winningPlayer == MTTTPlayer.None)
                 {
-                    for (int x = 0; x < Span; x++)
+                    for (int x = 0; x < BoardSize; x++)
                         CheckValueForWinningPlayer(xsum[x]);
                 }
                 if (_winningPlayer == MTTTPlayer.None)
                 {
-                    for (int y = 0; y < Span; y++)
+                    for (int y = 0; y < BoardSize; y++)
                         CheckValueForWinningPlayer(ysum[y]);
                 }
                 _isTerminal = _winningPlayer != MTTTPlayer.None || fieldsFilled == Length * Length;
@@ -193,7 +193,7 @@ namespace Travis.Games.MultipleTicTacToe
 
         private void CheckValueForWinningPlayer(int yskew)
         {
-            if (_winningPlayer == MTTTPlayer.None && yskew == Span || yskew == -Span)
+            if (_winningPlayer == MTTTPlayer.None && yskew == BoardSize || yskew == -BoardSize)
                 _winningPlayer = yskew > 0 ? MTTTPlayer.XPlayer : MTTTPlayer.YPlayer;
         }
     }

@@ -6,6 +6,7 @@ using Travis.Logic.Extensions;
 using Travis.Logic.Model;
 using System;
 using Travis.Logic.Learning.Model;
+using Travis.Games.MultipleTicTacToe;
 
 namespace Travis.Test
 {
@@ -98,6 +99,79 @@ namespace Travis.Test
             {
                 AssertTree(childNode, childNode.Quality.NumVisited, false);
             }
+        }
+
+        /// <summary>
+        /// Checks if state is valid.
+        /// </summary>
+        /// <param name="state">State to assert.</param>
+        /// <param name="filledFields">Fields which are expected to be already filled.</param>
+        public static void AssertState(MultipleTicTacToeState state)
+        {
+            AssertState(state, new Dictionary<Tuple<int, int, int>, MTTTPlayer>());
+        }
+
+        /// <summary>
+        /// Checks if state is valid.
+        /// </summary>
+        /// <param name="state">State to assert.</param>
+        /// <param name="filledFields">Fields which are expected to be already filled.</param>
+        public static void AssertState(MultipleTicTacToeState state, Dictionary<Tuple<int, int, int>, MTTTPlayer> filledFields)
+        {
+            for (int k = 0; k < MultipleTicTacToeState.BoardsNum; k++)
+            {
+                var board = state.GetBoard(k);
+                for (int i = 0; i < MultipleTicTacToeState.BoardSize; i++)
+                    for (int j = 0; j < MultipleTicTacToeState.BoardSize; j++)
+                    {
+                        MTTTPlayer expectedValue;
+                        if (!filledFields.TryGetValue(Tuple.Create(k, i, j), out expectedValue))
+                            Assert.AreEqual(MTTTPlayer.None, board[i, j]);
+                        else Assert.AreEqual(expectedValue, board[i, j]);
+                    }
+            }
+            var actions = state.GetActionsForActor(1 - state.CurrentPlayerId).Select(kv => kv.Value).OfType<MultipleTicTacToeAction>().ToList();
+            Assert.AreEqual(1, actions.Count);
+            Assert.IsTrue(actions.Single().IsNoop);
+            
+            bool[][,] actionForBoards = new bool[MultipleTicTacToeState.BoardsNum][,];
+            for (int i = 0; i < actionForBoards.Length; i++)
+                actionForBoards[i] = new bool[MultipleTicTacToeState.BoardSize, MultipleTicTacToeState.BoardSize];
+
+            int actionsSet = 0;
+            foreach (var fd in filledFields)
+            {
+                if (fd.Value != MTTTPlayer.None)
+                {
+                    actionForBoards[fd.Key.Item1][fd.Key.Item2, fd.Key.Item3] = true;
+                    actionsSet++;
+                }
+            }
+
+            actions = state.GetActionsForActor(state.CurrentPlayerId).Select(kv => kv.Value).OfType<MultipleTicTacToeAction>().ToList();
+            Assert.AreEqual(MultipleTicTacToeState.BoardsNum *
+                MultipleTicTacToeState.BoardSize * MultipleTicTacToeState.BoardSize -
+                actionsSet,
+                actions.Count);
+
+            foreach (var a in actions)
+            {
+                Assert.IsFalse(a.IsNoop);
+                if (actionForBoards[a.BoardNum][a.XPosition, a.YPosition])
+                {
+                    MTTTPlayer fieldValue;
+                    if (filledFields.TryGetValue(Tuple.Create(a.BoardNum, a.XPosition, a.YPosition), out fieldValue) && fieldValue != MTTTPlayer.None)
+                        Assert.Fail($"Action for ignored field {a.BoardNum} - ({a.XPosition}, {a.YPosition})");
+                    Assert.Fail($"Doubled action for board {a.BoardNum} - ({a.XPosition}, {a.YPosition})");
+                }
+                else
+                {
+                    actionsSet++;
+                    actionForBoards[a.BoardNum][a.XPosition, a.YPosition] = true;
+                }
+            }
+            Assert.AreEqual(MultipleTicTacToeState.BoardsNum *
+                MultipleTicTacToeState.BoardSize * MultipleTicTacToeState.BoardSize, actionsSet);
         }
     }
 }

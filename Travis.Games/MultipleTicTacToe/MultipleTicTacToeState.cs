@@ -103,8 +103,8 @@ namespace Travis.Games.MultipleTicTacToe
                 _actionsForCurrentActor = new Dictionary<int, IAction>();
                 int num = 0;
                 foreach (var board in _boards)
-                    for (int x = 0; x < Span; x++)
-                        for (int y = 0; y < Span; y++)
+                    for (int x = 0; x < BoardSize; x++)
+                        for (int y = 0; y < BoardSize; y++)
                         {
                             if (board[x, y] == MTTTPlayer.None)
                             {
