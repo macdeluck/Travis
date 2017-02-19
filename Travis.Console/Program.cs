@@ -1,8 +1,19 @@
-﻿using Travis.Console.Commandline;
+﻿using CommandLine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Travis.Logic.Extensions;
 
 namespace Travis.Console
 {
+    public class Options
+    {
+        public const string learn = nameof(learn);
+
+        [VerbOption(learn)]
+        public LearnOptions Learn { get; set; }
+    }
+
     /// <summary>
     /// Class which contains program entry point.
     /// </summary>
@@ -11,22 +22,18 @@ namespace Travis.Console
         /// <summary>
         /// Program entry point.
         /// </summary>
-        public static int Main(string[] argv)
+        public static void Main(string[] argv)
         {
-            var cmdParser = new CommandlineParser();
-            var context = cmdParser.Parse(argv);
-            switch (context.Command)
+            if (!Parser.Default.ParseArguments(argv, new Options(), DispatchProgram))
+                Environment.Exit(CommandLine.Parser.DefaultExitCodeFail);
+        }
+
+        private static void DispatchProgram(string verb, object subOptions)
+        {
+            if (verb == Options.learn)
             {
-                case Commands.Help:
-                    System.Console.WriteLine(context.OutputMessage);
-                    return 1;
-                case Commands.Learn:
-                    new LearnProgram().Run(context.LearnOptions);
-                    return 0;
-                default:
-                    if (context.OutputMessage.HasValue())
-                        System.Console.WriteLine(context.OutputMessage);
-                    return 255;
+                var options = subOptions as LearnOptions;
+                new LearnProgram().Run(options);
             }
         }
     }

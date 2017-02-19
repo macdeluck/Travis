@@ -1,4 +1,6 @@
-﻿namespace Travis.Logic.Extensions
+﻿using System.Collections.Generic;
+
+namespace Travis.Logic.Extensions
 {
     /// <summary>
     /// Contains additional methods for <see cref="string"/>.
@@ -22,6 +24,27 @@
         public static bool HasValue(this string str)
         {
             return !string.IsNullOrEmpty(str);
+        }
+
+        /// <summary>
+        /// Converts string to key-value pair.
+        /// </summary>
+        /// <param name="kvStr">String to convert.</param>
+        /// <param name="separator">Key and value separator.</param>
+        public static KeyValuePair<string, string> ToKeyValuePair(this string kvStr, char separator = '=')
+        {
+            string key = null;
+            string value = null;
+            int splitindex = kvStr.IndexOf(separator);
+            if (splitindex < 0)
+                key = kvStr;
+            else
+            {
+                key = kvStr.Substring(0, splitindex);
+                if (splitindex != kvStr.Length)
+                    value = kvStr.Substring(splitindex + 1);
+            }
+            return new KeyValuePair<string, string>(key, value);
         }
     }
 }
