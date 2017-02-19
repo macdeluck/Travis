@@ -46,7 +46,7 @@ namespace Travis.Console
         {
             if (!options.BudgetArgumentList.Any())
                 budgetProvider = TravisInit.Current.GetObject<IBudgetProvider>(options.BudgetProviderName);
-            else budgetProvider = TravisInit.Current.GetObject<IBudgetProvider>(options.BudgetProviderName, options.BudgetArgumentList.Select(kv => (KeyValuePair<string, string>)kv).ToList());
+            else budgetProvider = TravisInit.Current.GetObject<IBudgetProvider>(options.BudgetProviderName, options.BudgetArgumentList);
             game = TravisInit.Current.GetObject<IGame>(options.GameName);
             if (options.SelectorNames.Any())
             {

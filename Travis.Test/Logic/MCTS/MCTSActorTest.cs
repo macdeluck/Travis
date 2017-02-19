@@ -18,10 +18,11 @@ namespace Travis.Test.Logic.MCTS
             public int PlayClock { get; set; }
             
             public TestMCTSActor(int startTimeIterations, int playTimeIterations)
-                : base(new IterationBasedBudgetProvider(startTimeIterations), new IterationBasedBudgetProvider(playTimeIterations))
             {
                 StartClock = startTimeIterations;
                 PlayClock = playTimeIterations;
+                StartTimeBudget = new IterationBasedBudgetProvider(startTimeIterations);
+                PlayTimeBudget = new IterationBasedBudgetProvider(playTimeIterations);
             }
 
             public override void OnMatchBegin(IGame game, IState state, int actorId)

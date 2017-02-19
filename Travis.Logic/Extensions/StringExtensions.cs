@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Travis.Logic.Extensions
 {
@@ -45,6 +46,16 @@ namespace Travis.Logic.Extensions
                     value = kvStr.Substring(splitindex + 1);
             }
             return new KeyValuePair<string, string>(key, value);
+        }
+
+        /// <summary>
+        /// Parses string to specified type.
+        /// </summary>
+        /// <typeparam name="T">Result type.</typeparam>
+        /// <param name="str">String to parse.</param>
+        public static T Parse<T>(this string str)
+        {
+            return (T)Convert.ChangeType(str, typeof(T));
         }
     }
 }

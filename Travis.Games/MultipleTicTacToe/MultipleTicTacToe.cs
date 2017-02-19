@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Travis.Logic.Model;
+using Travis.Logic.Serialization;
 
 namespace Travis.Games.MultipleTicTacToe
 {
     /// <summary>
     /// Represents Tic-Tac-Toe like game.
     /// </summary>
+    [UsesSerializer(typeof(MultipleTicTacToeGameSerializer))]
     public class MultipleTicTacToe : IGame
     {
         /// <summary>

@@ -15,7 +15,7 @@ namespace Travis.Logic.MCTS
         /// <summary>
         /// Processor used to learn tree.
         /// </summary>
-        protected TreeSearchProcessor learningProcessor;
+        protected TreeSearchProcessor learningProcessor = new TreeSearchProcessor();
 
         /// <summary>
         /// Current root node.
@@ -25,7 +25,7 @@ namespace Travis.Logic.MCTS
         /// <summary>
         /// Action selectors used to choose moves.
         /// </summary>
-        protected IDictionary<int, ActionSelector> actionSelectors;
+        public IDictionary<int, ActionSelector> ActionSelectors { get; set; }
 
         /// <summary>
         /// Current game.
@@ -40,73 +40,12 @@ namespace Travis.Logic.MCTS
         /// <summary>
         /// Budget provider for initial tree expansion.
         /// </summary>
-        public IBudgetProvider StartTimeBudget { get; private set; }
+        public IBudgetProvider StartTimeBudget { get; set; } = new IterationBasedBudgetProvider(0);
 
         /// <summary>
         /// Budget provider for play time tree expansion.
         /// </summary>
-        public IBudgetProvider PlayTimeBudget { get; private set; }
-
-        /// <summary>
-        /// Builder of action selectors on match begin.
-        /// </summary>
-        public IActionSelectorBuilder ActionSelectorBuilder { get; private set; }
-
-        /// <summary>
-        /// Creates new instance of MCTS actor with default action selector builder
-        /// and no budget for initial tree expansion.
-        /// </summary>
-        /// <param name="playTimeIterations">Number of iterations to perform during play time.</param>
-        public MCTSActor(int playTimeIterations)
-            : this(new IterationBasedBudgetProvider(playTimeIterations), MCTSActionSelector.GetBuilder())
-        {
-        }
-
-        /// <summary>
-        /// Creates new instance of MCTS actor with default action selector builder
-        /// and no budget for initial tree expansion.
-        /// </summary>
-        /// <param name="playTimeBudget">Budget to select action during game.</param>
-        public MCTSActor(IBudgetProvider playTimeBudget) : this(playTimeBudget, MCTSActionSelector.GetBuilder())
-        {
-        }
-
-        /// <summary>
-        /// Creates new instance of MCTS actor with no budget for initial tree expansion.
-        /// </summary>
-        /// <param name="playTimeBudget">Budget to select action during game.</param>
-        /// <param name="actionSelectorBuilder">Builder of action selectors on match begin.</param>
-        public MCTSActor(IBudgetProvider playTimeBudget, IActionSelectorBuilder actionSelectorBuilder)
-            : this(new IterationBasedBudgetProvider(0), playTimeBudget, actionSelectorBuilder)
-        {
-        }
-
-        /// <summary>
-        /// Creates new instance of MCTS actor with default action selector builder.
-        /// </summary>
-        /// <param name="startTimeBudget">Budget to initial tree expansion.</param>
-        /// <param name="playTimeBudget">Budget to select action during game.</param>
-        public MCTSActor(IBudgetProvider startTimeBudget, IBudgetProvider playTimeBudget)
-            : this(startTimeBudget, playTimeBudget, MCTSActionSelector.GetBuilder())
-        {
-        }
-
-        /// <summary>
-        /// Creates new instance of MCTS actor.
-        /// </summary>
-        /// <param name="startTimeBudget">Budget to initial tree expansion.</param>
-        /// <param name="playTimeBudget">Budget to select action during game.</param>
-        /// <param name="actionSelectorBuilder">Builder of action selectors on match begin.</param>
-        public MCTSActor(IBudgetProvider startTimeBudget, IBudgetProvider playTimeBudget, IActionSelectorBuilder actionSelectorBuilder)
-        {
-            if (startTimeBudget == null) throw new ArgumentNullException(nameof(startTimeBudget));
-            if (playTimeBudget == null) throw new ArgumentNullException(nameof(playTimeBudget));
-            if (actionSelectorBuilder == null) throw new ArgumentNullException(nameof(actionSelectorBuilder));
-            StartTimeBudget = startTimeBudget;
-            PlayTimeBudget = playTimeBudget;
-            ActionSelectorBuilder = actionSelectorBuilder;
-            learningProcessor = new TreeSearchProcessor();
-        }
+        public IBudgetProvider PlayTimeBudget { get; set; } = new IterationBasedBudgetProvider(1000);
 
         /// <summary>
         /// Returns identifier assigned on match begin.
@@ -125,7 +64,8 @@ namespace Travis.Logic.MCTS
             currentGame = game;
             currentState = currentGame.GetInitialState();
             currentRoot = new TreeNode();
-            actionSelectors = ActionSelectorBuilder.CreateSelectors(actorId, game);
+            if (ActionSelectors == null)
+                ActionSelectors = MCTSActionSelector.Create(game.EnumerateActors());
             ProcessLearning(StartTimeBudget);
         }
 
@@ -133,7 +73,7 @@ namespace Travis.Logic.MCTS
         {
             if (budgetProvider == null)
                 budgetProvider = PlayTimeBudget;
-            learningProcessor.Process(currentRoot, currentState, currentGame, budgetProvider, actionSelectors);
+            learningProcessor.Process(currentRoot, currentState, currentGame, budgetProvider, ActionSelectors);
         }
 
         /// <summary>

@@ -72,6 +72,8 @@
     <Compile Include="Model\IGame.cs" />
     <Compile Include="Model\IState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\IGameSerializer.cs" />
+    <Compile Include="Serialization\UsesSerializerAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Messages.resx">

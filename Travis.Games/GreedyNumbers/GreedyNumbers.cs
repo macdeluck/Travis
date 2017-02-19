@@ -2,12 +2,14 @@
 using System.Linq;
 using Travis.Logic.Extensions;
 using Travis.Logic.Model;
+using Travis.Logic.Serialization;
 
 namespace Travis.Games.GreedyNumbers
 {
     /// <summary>
     /// Simple game which goals to take as high picks aggregated value as possible.
     /// </summary>
+    [UsesSerializer(typeof(GreedyNumbersGameSerializer))]
     public class GreedyNumbers : IGame
     {
         /// <summary>

@@ -42,9 +42,11 @@
   <ItemGroup>
     <Compile Include="GreedyNumbers\GreedyNumbers.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersAction.cs" />
+    <Compile Include="GreedyNumbers\GreedyNumbersGameSerializer.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersState.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToe.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToeAction.cs" />
+    <Compile Include="MultipleTicTacToe\MultipleTicTacToeGameSerializer.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToeState.cs" />
     <Compile Include="MultipleTicTacToe\TicTacToeCommon.cs" />
   </ItemGroup>
