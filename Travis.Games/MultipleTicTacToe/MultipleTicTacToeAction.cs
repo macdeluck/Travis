@@ -1,4 +1,6 @@
-﻿using Travis.Logic.Model;
+﻿using System;
+using Travis.Logic.Extensions;
+using Travis.Logic.Model;
 
 namespace Travis.Games.MultipleTicTacToe
 {
@@ -8,33 +10,42 @@ namespace Travis.Games.MultipleTicTacToe
     public class MultipleTicTacToeAction : IAction
     {
         /// <summary>
-        /// Returns action identifier.
-        /// </summary>
-        public int ActionId { get; set; }
-
-        /// <summary>
-        /// Returns actor's identifier.
-        /// </summary>
-        public int ActorId { get; set; }
-
-        /// <summary>
-        /// True, if action is no operation.
+        /// Gets or sets information if action is no operation.
         /// </summary>
         public bool IsNoop { get; set; }
 
         /// <summary>
-        /// Selected board number.
+        /// Action identifier.
+        /// </summary>
+        public int ActionId { get; set; }
+
+        /// <summary>
+        /// Number of selected board.
         /// </summary>
         public int BoardNum { get; set; }
 
         /// <summary>
-        /// X positon of captured field.
+        /// X position of selected field.
         /// </summary>
-        public int XPosition { get; set; }
+        public int PosX { get; set; }
 
         /// <summary>
-        /// Y position of captured field.
+        /// Y position of selected field.
         /// </summary>
-        public int YPosition { get; set; }
+        public int PosY { get; set; }
+        
+        /// <summary>
+        /// Actor identifier.
+        /// </summary>
+        public int ActorId { get; set; }
+        
+        /// <summary>
+        /// Returns string representation of itself.
+        /// </summary>
+        public override string ToString()
+        {
+            if (IsNoop) return "Noop";
+            return "Place at ({0}, {1}) on board {2}".FormatString(PosX, PosY, BoardNum);
+        }
     }
 }

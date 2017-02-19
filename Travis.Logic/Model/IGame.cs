@@ -15,7 +15,6 @@ namespace Travis.Logic.Model
         /// <summary>
         /// Enumerates actors Ids.
         /// </summary>
-        /// <returns></returns>
         IEnumerable<int> EnumerateActors();
 
         /// <summary>

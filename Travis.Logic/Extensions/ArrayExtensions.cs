@@ -24,12 +24,38 @@ namespace Travis.Logic.Extensions
                     result[i, j] = cloneFunction(array[i, j]);
             return result;
         }
+
         /// <summary>
         /// Performs copy of two-dimentional array.
         /// </summary>
         /// <typeparam name="T">Type of array element.</typeparam>
         /// <param name="array">Array to clone.</param>
         public static T[,] CloneArray<T>(this T[,] array)
+        {
+            return array.CloneArray(t => t);
+        }
+
+        /// <summary>
+        /// Performs copy of one-dimentional array.
+        /// </summary>
+        /// <typeparam name="T">Type of array element.</typeparam>
+        /// <param name="array">Array to clone.</param>
+        /// <param name="cloneFunction">Function used to clone array elements.</param>
+        public static T[] CloneArray<T>(this T[] array, Func<T, T> cloneFunction)
+        {
+            int n = array.Length;
+            var result = new T[n];
+            for (int i = 0; i < n; i++)
+                result[i] = cloneFunction(array[i]);
+            return result;
+        }
+
+        /// <summary>
+        /// Performs copy of one-dimentional array.
+        /// </summary>
+        /// <typeparam name="T">Type of array element.</typeparam>
+        /// <param name="array">Array to clone.</param>
+        public static T[] CloneArray<T>(this T[] array)
         {
             return array.CloneArray(t => t);
         }

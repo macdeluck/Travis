@@ -6,7 +6,7 @@ using Travis.Logic.Model;
 namespace Travis.Games.MultipleTicTacToe
 {
     /// <summary>
-    /// A Tic-Tac-Toe like game with few boards and only one winning.
+    /// Represents Tic-Tac-Toe like game.
     /// </summary>
     public class MultipleTicTacToe : IGame
     {
@@ -16,21 +16,32 @@ namespace Travis.Games.MultipleTicTacToe
         public string Name => nameof(MultipleTicTacToe);
 
         /// <summary>
-        /// Gets number of players.
+        /// Returs number of actors for particular game.
         /// </summary>
         public int NumberOfActors => 2;
 
-        /// <summary>
-        /// Enumerates player's identifiers.
-        /// </summary>
-        public IEnumerable<int> EnumerateActors() => Enumerable.Range(0, NumberOfActors);
+        private static TicTacToeBoard[] CreateInitBoards()
+        {
+            var arr = new TicTacToeBoard[MultipleTicTacToeState.BoardsNum];
+            for (int i = 0; i < MultipleTicTacToeState.BoardsNum; i++)
+                arr[i] = new TicTacToeBoard(MultipleTicTacToeState.BoardSize);
+            return arr;
+        }
 
         /// <summary>
-        /// Returns initial game state.
+        /// Enumerates actors Ids.
+        /// </summary>
+        public IEnumerable<int> EnumerateActors()
+        {
+            return Enumerable.Range(0, NumberOfActors);
+        }
+
+        /// <summary>
+        /// Returns initial state for game.
         /// </summary>
         public IState GetInitialState()
         {
-            return new MultipleTicTacToeState();
+            return new MultipleTicTacToeState(0, CreateInitBoards());
         }
     }
 }

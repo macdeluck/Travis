@@ -15,12 +15,12 @@ namespace Travis.Test.Games
         {
             var game = new MultipleTicTacToe();
             var state = game.GetInitialState() as MultipleTicTacToeState;
-            Assert.AreEqual(MTTTPlayer.XPlayer, state.CurrentPlayer);
-            Assert.AreEqual(0, state.CurrentPlayerId);
+            Assert.AreEqual(TicTacToeEntity.X, state.ControlTicTacToePlayer);
+            Assert.AreEqual(0, state.ControlPlayer);
             CustomAssert.AssertState(state);
 
             var actions = state.GetActionsForActor(0).Values.OfType<MultipleTicTacToeAction>()
-                .Where(a => a.BoardNum == 4 && a.XPosition == 2 && a.YPosition == 1).ToList();
+                .Where(a => a.BoardNum == 4 && a.PosX == 2 && a.PosY == 1).ToList();
             Assert.AreEqual(1, actions.Count);
             var stateClone = state.Clone() as MultipleTicTacToeState;
             CustomAssert.AssertState(stateClone);
@@ -32,15 +32,15 @@ namespace Travis.Test.Games
             });
             state.Apply(aset);
             CustomAssert.AssertState(stateClone);
-            CustomAssert.AssertState(state, new Dictionary<System.Tuple<int, int, int>, MTTTPlayer>()
+            CustomAssert.AssertState(state, new Dictionary<Tuple<int, int, int>, TicTacToeEntity>()
             {
-                { Tuple.Create(4, 2, 1), MTTTPlayer.XPlayer }
+                { Tuple.Create(4, 2, 1), TicTacToeEntity.X }
             });
-            Assert.AreEqual(MTTTPlayer.XPlayer, stateClone.CurrentPlayer);
-            Assert.AreEqual(0, stateClone.CurrentPlayerId);
+            Assert.AreEqual(TicTacToeEntity.X, stateClone.ControlTicTacToePlayer);
+            Assert.AreEqual(0, stateClone.ControlPlayer);
 
-            Assert.AreEqual(MTTTPlayer.YPlayer, state.CurrentPlayer);
-            Assert.AreEqual(1, state.CurrentPlayerId);
+            Assert.AreEqual(TicTacToeEntity.O, state.ControlTicTacToePlayer);
+            Assert.AreEqual(1, state.ControlPlayer);
         }
     }
 }
