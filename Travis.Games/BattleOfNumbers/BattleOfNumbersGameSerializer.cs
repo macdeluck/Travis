@@ -5,15 +5,14 @@ using Travis.Logic.Extensions;
 using Travis.Logic.Model;
 using Travis.Logic.Serialization;
 
-namespace Travis.Games.FarmingQuandaries
+namespace Travis.Games.BattleOfNumbers
 {
     /// <summary>
-    /// Serializer of <see cref="FarmingQuandaries"/> game.
+    /// Serializer for state and actions of <see cref="BattleOfNumbers"/> game.
     /// </summary>
-    public class FarmingQuandariesGameSerializer : IGameSerializer
+    public class BattleOfNumbersGameSerializer : IGameSerializer
     {
         private bool auto = false;
-        private bool autonoop = false;
 
         /// <summary>
         /// Deserializes action from given stream.
@@ -25,37 +24,30 @@ namespace Travis.Games.FarmingQuandaries
         public IAction DeserializeAction(IGame game, IState state, int actorId, TextReader reader)
         {
             var actionsAvailable = state.GetActionsForActor(actorId);
-            if (autonoop && (state as FarmingQuandariesState).ControlPlayer != actorId)
-                return actionsAvailable.Values.Single(a => (a as FarmingQuandariesAction).IsNoop);
 
             if (auto)
                 return actionsAvailable.Values.RandomElement();
 
             var line = reader.ReadLine().Trim();
 
-            if (string.Equals(line, "autonoop", StringComparison.InvariantCultureIgnoreCase))
-            {
-                autonoop = true;
-                return actionsAvailable.Values.Single(a => (a as FarmingQuandariesAction).IsNoop);
-            }
             if (string.Equals(line, "auto", StringComparison.InvariantCultureIgnoreCase))
             {
                 auto = true;
                 return actionsAvailable.Values.RandomElement();
             }
 
-            if (string.Equals(line, "noop", StringComparison.InvariantCultureIgnoreCase))
-                return actionsAvailable.Values.Single(a => (a as FarmingQuandariesAction).IsNoop);
-            var split = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var split = line.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             if (split.Length != 2)
-                throw new InvalidOperationException("Invalid action format.");
-            var isRowAction = string.Equals(split[0], "row", StringComparison.InvariantCultureIgnoreCase);
-            var index = split[1].Parse<int>() + 1;
-            return actionsAvailable.Values.Single(a =>
-            {
-                var fa = a as FarmingQuandariesAction;
-                return fa.Index == index && fa.IsRowAction == isRowAction;
-            });
+                throw new InvalidOperationException("Invalid format");
+            var pick = split[0].Trim().Parse<int>();
+            var endPos = split[1].Trim().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(p => p.Parse<int>()).ToArray();
+            if (endPos.Length != 2)
+                throw new InvalidOperationException("Invalid end pos format");
+            return actionsAvailable.Values.Select(a => a as BattleOfNumbersAction)
+                .Single(a =>
+                a.EndPos[0] == endPos[0] &&
+                a.EndPos[1] == endPos[1] &&
+                a.Pick == pick);
         }
 
         /// <summary>

@@ -40,6 +40,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleOfNumbers\BattleOfNumbers.cs" />
+    <Compile Include="BattleOfNumbers\BattleOfNumbersAction.cs" />
+    <Compile Include="BattleOfNumbers\BattleOfNumbersGameSerializer.cs" />
+    <Compile Include="BattleOfNumbers\BattleOfNumbersState.cs" />
     <Compile Include="FarmingQuandaries\FarmingQuandaries.cs" />
     <Compile Include="FarmingQuandaries\FarmingQuandariesAction.cs" />
     <Compile Include="FarmingQuandaries\FarmingQuandariesGameSerializer.cs" />
