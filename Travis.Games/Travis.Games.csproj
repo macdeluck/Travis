@@ -40,6 +40,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FarmingQuandaries\FarmingQuandaries.cs" />
+    <Compile Include="FarmingQuandaries\FarmingQuandariesAction.cs" />
+    <Compile Include="FarmingQuandaries\FarmingQuandariesGameSerializer.cs" />
+    <Compile Include="FarmingQuandaries\FarmingQuandariesState.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbers.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersAction.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersGameSerializer.cs" />
