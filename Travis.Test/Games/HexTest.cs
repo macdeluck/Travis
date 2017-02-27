@@ -10,15 +10,15 @@ namespace Travis.Test.Games
         public void Hex_WinnerRed()
         {
             var board = new HexBoard(9);
-            board[4, 0] = HexEntity.Red;
-            board[4, 1] = HexEntity.Red;
-            board[4, 2] = HexEntity.Red;
-            board[4, 3] = HexEntity.Red;
             board[4, 4] = HexEntity.Red;
+            board[4, 0] = HexEntity.Red;
+            board[4, 2] = HexEntity.Red;
+            board[4, 1] = HexEntity.Red;
+            board[4, 3] = HexEntity.Red;
             board[4, 5] = HexEntity.Red;
             board[4, 6] = HexEntity.Red;
-            board[4, 7] = HexEntity.Red;
             board[4, 8] = HexEntity.Red;
+            board[4, 7] = HexEntity.Red;
             var hexState = new HexState(0, board);
             Assert.IsTrue(hexState.IsTerminal);
         }
@@ -54,13 +54,15 @@ namespace Travis.Test.Games
                 { 'R', 'B', 'R', 'R', 'R', 'B', 'R', 'R', 'R' },
                 { 'B', 'R', 'B', 'B', 'R', 'B', 'R', 'R', 'R' },
                 { 'B', 'B', 'B', 'R', 'B', 'R', 'B', 'R', 'B' },
-                { 'B', 'R', 'B', 'B', 'R', 'R', 'B', 'R', 'R' }
+                { 'B', 'R', 'B', 'B', 'R', ' ', ' ', ' ', ' ' }
             };
             for (int x = 0; x < b.GetLength(0); x++)
                 for (int y = 0; y < b.GetLength(1); y++)
-                    board[y, x] = b[x, y] == 'B' ? HexEntity.Black : HexEntity.Red;
+                    if (b[x, y] != ' ')
+                        board[y, x] = b[x, y] == 'B' ? HexEntity.Black : HexEntity.Red;
             var state = new HexState(0, board);
             Assert.IsTrue(state.IsTerminal);
+            Assert.AreEqual(HexEntity.Red, board.Winner);
         }
     }
 }

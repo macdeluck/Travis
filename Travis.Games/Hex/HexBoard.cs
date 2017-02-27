@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Travis.Logic.Algorithm;
 using Travis.Logic.Extensions;
 
 namespace Travis.Games.Hex
@@ -54,14 +55,72 @@ namespace Travis.Games.Hex
     }
 
     /// <summary>
+    /// Represents board position.
+    /// </summary>
+    public struct HexCell
+    {
+        /// <summary>
+        /// The x position.
+        /// </summary>
+        public int X { get; set; }
+
+        /// <summary>
+        /// The y position.
+        /// </summary>
+        public int Y { get; set; }
+
+        /// <summary>
+        /// Hex entity on field.
+        /// </summary>
+        public HexEntity Entity { get; set; }
+    }
+
+    /// <summary>
     /// Represents hex board.
     /// </summary>
     public class HexBoard
     {
+        private class HexField
+        {
+            public HexField()
+            {
+                Entity = HexEntity.Empty;
+            }
+
+            public UnionFind<Range> Range { get; set; }
+
+            public HexEntity Entity { get; set; }
+
+            public bool IsEmpty => Entity == HexEntity.Empty;
+        }
+
+        private class Range
+        {
+            public Range(int min, int max)
+            {
+                Min = min;
+                Max = max;
+            }
+
+            public void Union(Range other)
+            {
+                Min = Math.Min(Min, other.Min);
+                Max = Math.Max(Max, other.Max);
+            }
+
+            public static readonly Range Empty = new Range(0, 0);
+
+            public int Min { get; set; }
+
+            public int Max { get; set; }
+
+            public int Length => Max - Min;
+        }
+
         /// <summary>
         /// Board fields.
         /// </summary>
-        private HexEntity[,] Fields { get; set; }
+        private HexField[,] Fields { get; set; }
         
         /// <summary>
         /// Creates new board with given size.
@@ -70,10 +129,10 @@ namespace Travis.Games.Hex
         public HexBoard(int size)
         {
             Size = size;
-            Fields = new HexEntity[Size, Size];
+            Fields = new HexField[Size, Size];
             for (int i = 0; i < Size; i++)
                 for (int j = 0; j < Size; j++)
-                    Fields[i, j] = HexEntity.Empty;
+                    Fields[i, j] = new HexField();
         }
 
         /// <summary>
@@ -86,11 +145,18 @@ namespace Travis.Games.Hex
         /// </summary>
         public HexBoard Clone()
         {
-            return new HexBoard(Size)
-            {
-                Fields = Fields.CloneArray(),
-            };
+            var result = new HexBoard(Size);
+            for (int x = 0; x < Size; x++)
+                for (int y = 0; y < Size; y++)
+                    if (!Fields[x, y].IsEmpty)
+                        result[x, y] = Fields[x, y].Entity;
+            return result;
         }
+
+        /// <summary>
+        /// Winner of current board.
+        /// </summary>
+        public HexEntity Winner { get; private set; }
 
         /// <summary>
         /// Accesses board field on given position.
@@ -101,13 +167,30 @@ namespace Travis.Games.Hex
         {
             get
             {
-                return Fields[x, y];
+                return Fields[x, y].Entity;
             }
             set
             {
-                if (Fields[x, y] != HexEntity.Empty) throw new ArgumentException("Field ({0}, {1}) is already occupied".FormatString(x, y));
+                if (!Fields[x, y].IsEmpty) throw new ArgumentException("Field ({0}, {1}) is already occupied".FormatString(x, y));
                 if (value == HexEntity.Empty) throw new ArgumentException("HexField cannot be cleared");
-                Fields[x, y] = value;
+                if (Winner != HexEntity.Empty) throw new InvalidOperationException("Board already has a winner");
+                Fields[x, y].Entity = value;
+                if (Fields[x, y].Range == null)
+                {
+                    if (value == HexEntity.Black)
+                        Fields[x, y].Range = new UnionFind<Range>(new Range(x, x));
+                    else Fields[x, y].Range = new UnionFind<Range>(new Range(y, y));
+                }
+                var xyParent = Fields[x, y].Range.Find();
+                foreach (var cell in AdjacentCells(x, y))
+                    if (cell.Entity == value)
+                    {
+                        var parent = Fields[cell.X, cell.Y].Range.Find();
+                        xyParent.Union(parent);
+                        xyParent.Value.Union(parent.Value);
+                        if (xyParent.Value.Length == Size - 1)
+                            Winner = value;
+                    }
             }
         }
 
@@ -143,6 +226,21 @@ namespace Travis.Games.Hex
         }
 
         /// <summary>
+        /// Enumerates adjacent cells to given position.
+        /// </summary>
+        /// <param name="x">X position.</param>
+        /// <param name="y">Y position.</param>
+        public IEnumerable<HexCell> AdjacentCells(int x, int y)
+        {
+            var xOffsets = new[] { -1, 0, 1 };
+            var yOffsets = new[] { -1, 0, 1 };
+            foreach (var xo in xOffsets)
+                foreach (var yo in yOffsets)
+                    if (Adjacent(x, y, x + xo, y + yo))
+                        yield return new HexCell() { Entity = Fields[x + xo, y + yo].Entity, X = x + xo, Y = y + yo };
+        }
+
+        /// <summary>
         /// Checks if there is path between fields with given positions.
         /// </summary>
         /// <param name="x1">The x index of first position.</param>
@@ -162,7 +260,7 @@ namespace Travis.Games.Hex
             var result = new string[Size + 1];
             result[0] = "  " + Enumerable.Range(0, Size).JoinString(" ");
             for (int y = 0; y < Size; y++)
-                result[y + 1] = $"{y}" + Enumerable.Range(0, Size).Select(x => Fields[x, y] == HexEntity.Empty ? " " : Fields[x, y] == HexEntity.Red ? "R" : "B").JoinString(" ");
+                result[y + 1] = $"{y} " + Enumerable.Range(0, Size).Select(x => Fields[x, y].IsEmpty ? " " : Fields[x, y].Entity == HexEntity.Red ? "R" : "B").JoinString(" ");
             return result;
         }
 
