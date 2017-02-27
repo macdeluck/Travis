@@ -41,9 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\AStar.cs" />
+    <Compile Include="Algorithm\Heap.cs" />
+    <Compile Include="Algorithm\IGraph.cs" />
+    <Compile Include="Algorithm\MatrixGraph.cs" />
+    <Compile Include="Algorithm\UnionFind.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\Enums.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Contest\MatchmakingProcessor.cs" />
     <Compile Include="Learning\Model\ActionQualityInfo.cs" />

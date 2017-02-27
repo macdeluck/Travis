@@ -52,6 +52,12 @@
     <Compile Include="GreedyNumbers\GreedyNumbersAction.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersGameSerializer.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersState.cs" />
+    <Compile Include="Hex\Hex.cs" />
+    <Compile Include="Hex\HexAction.cs" />
+    <Compile Include="Hex\HexBoard.cs" />
+    <Compile Include="Hex\HexGameSerializer.cs" />
+    <Compile Include="Hex\HexState.cs" />
+    <Compile Include="Hex\HexGraph.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToe.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToeAction.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToeGameSerializer.cs" />

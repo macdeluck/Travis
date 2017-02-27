@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="CustomAssert.cs" />
     <Compile Include="Games\FarmingQuandariesTest.cs" />
+    <Compile Include="Games\HexTest.cs" />
     <Compile Include="Logic\Contest\MatchmakingProcessorTest.cs" />
     <Compile Include="Logic\Learning\TreeSearchProcessorTest.cs" />
     <Compile Include="Logic\MCTS\MCTSActorTest.cs" />
