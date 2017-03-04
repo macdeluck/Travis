@@ -59,6 +59,15 @@ namespace Travis.Console
             return context.GetObject<T>(name);
         }
 
+        /// <summary>
+        /// Gets object registered with <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">Registered name.</param>
+        public object GetObject(string name)
+        {
+            return context.GetObject(name);
+        }
+
         private Type GetType<T>(string name)
         {
             var type = context.GetType(name);

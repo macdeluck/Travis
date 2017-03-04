@@ -202,7 +202,7 @@ namespace Travis.Games.MultipleTicTacToe
         public IDictionary<int, double> GetPayoffs()
         {
             if (!IsTerminal) throw new InvalidOperationException();
-            if (Boards[WinningBoard].Winner != null)
+            if (Boards[WinningBoard].Winner != TicTacToeEntity.None)
             {
                 if (Boards[WinningBoard].Winner == TicTacToeEntity.X)
                     return new Dictionary<int, double>() { { 0, 1.0 }, { 1, 0.0 } };

@@ -42,5 +42,21 @@ namespace Travis.Test.Games
             Assert.AreEqual(TicTacToeEntity.O, state.ControlTicTacToePlayer);
             Assert.AreEqual(1, state.ControlPlayer);
         }
+
+        [TestMethod]
+        public void MTTTNoWinnerTest()
+        {
+            var board = new TicTacToeBoard(9);
+            board[1, 1] = TicTacToeEntity.X;
+            board[0, 0] = TicTacToeEntity.O;
+            board[2, 0] = TicTacToeEntity.X;
+            board[0, 2] = TicTacToeEntity.O;
+            board[0, 1] = TicTacToeEntity.X;
+            board[2, 1] = TicTacToeEntity.O;
+            board[2, 2] = TicTacToeEntity.X;
+            board[1, 2] = TicTacToeEntity.O;
+            board[1, 0] = TicTacToeEntity.X;
+            Assert.AreEqual(TicTacToeEntity.None, board.Winner);
+        }
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="MCTS\IActionSelectorBuilder.cs" />
     <Compile Include="MCTS\MCTSActionSelector.cs" />
     <Compile Include="MCTS\MCTSActor.cs" />
+    <Compile Include="MCTS\ProbabilityMixedDefaultPolicy.cs" />
     <Compile Include="MCTS\RandomDefaultPolicy.cs" />
     <Compile Include="Learning\Model\TreeNode.cs" />
     <Compile Include="MCTS\UCT.cs" />
