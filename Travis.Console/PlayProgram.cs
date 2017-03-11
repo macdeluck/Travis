@@ -19,8 +19,11 @@ namespace Travis.Console
         [Option("budget", Required = false, HelpText = "Budget provider name")]
         public string BudgetProviderName { get; set; }
 
-        [Option("budget-arguments", Required = false, HelpText = "Budget provider arguments")]
-        public List<string> BudgetProviderArguments { get; set; }
+        [Option("num", Required = false, HelpText = "Number of games on single side")]
+        public int? NumOfGames { get; set; } = null;
+
+        [OptionList("budget-arguments", Required = false, HelpText = "Budget provider arguments")]
+        public IList<string> BudgetProviderArguments { get; set; }
 
         public List<KeyValuePair<string, string>> BudgetProviderArgumentList => BudgetProviderArguments.Select(a => a.ToKeyValuePair()).ToList();
 
@@ -64,16 +67,16 @@ namespace Travis.Console
 
     class DictionaryStringParser
     {
-        Dictionary<string, List<KeyValuePair<string, string>>> result;
+        Dictionary<string, Tuple<string, List<KeyValuePair<string, string>>>> result;
 
         int index = 0;
 
         string str;
 
-        public Dictionary<string, List<KeyValuePair<string, string>>> Parse(string buildString)
+        public Dictionary<string, Tuple<string, List<KeyValuePair<string, string>>>> Parse(string buildString)
         {
             if (buildString == null) throw new ArgumentNullException(nameof(buildString));
-            result = new Dictionary<string, List<KeyValuePair<string, string>>>();
+            result = new Dictionary<string, Tuple<string, List<KeyValuePair<string, string>>>>();
             str = buildString;
             index = 0;
             ParseDictionary();
@@ -98,7 +101,7 @@ namespace Travis.Console
 
         private bool IsWordCharacter(char c)
         {
-            return char.IsLetterOrDigit(c) || c == '.';
+            return char.IsLetterOrDigit(c) || c == '.' || c =='/';
         }
 
         private char EatCharacter(params char[] chars)
@@ -121,7 +124,11 @@ namespace Travis.Console
         {
             while (index < str.Length)
             {
-                var key = NextWord();
+                var key = NextWord().Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+                if (key.Length == 0 || key.Length > 2)
+                    throw new Exception("Bad object name specification");
+                var keyName = key[0];
+                var keyType = key.Length > 1 ? key[1] : key[0];
                 var args = new List<KeyValuePair<string, string>>();
                 if (EatCharacter(':', ';') == ':')
                 {
@@ -134,7 +141,7 @@ namespace Travis.Console
                     }
                     while (index < str.Length && EatCharacter(',', ';') != ';');
                 }
-                result.Add(key, args);
+                result.Add(keyName, Tuple.Create(keyType, args));
             }
         }
     }
@@ -145,7 +152,7 @@ namespace Travis.Console
 
         public List<string> BuildNames { get; set; } = new List<string>();
 
-        public Dictionary<string, List<KeyValuePair<string, string>>> BuildObjects { get; set; } = new Dictionary<string, List<KeyValuePair<string, string>>>();
+        public Dictionary<string, Tuple<string, List<KeyValuePair<string, string>>>> BuildObjects { get; set; } = new Dictionary<string, Tuple<string, List<KeyValuePair<string, string>>>>();
     }
 
     class PlayProgram
@@ -174,45 +181,93 @@ namespace Travis.Console
                 throw new InvalidOperationException($"Invalid number of actors. Specified {actorData.Count}, expected {game.NumberOfActors}");
             var actors = new List<IActor>(game.NumberOfActors);
             foreach (var adata in actorData)
+                actors.Add(BuildActor(adata, actors.Count, budgetProvider));
+
+            var reversedActors = new List<IActor>(game.NumberOfActors);
+            foreach (var adata in actorData.Reverse<ActorData>())
+                reversedActors.Add(BuildActor(adata, reversedActors.Count, budgetProvider));
+
+            bool sidesSwitched = false;
+            var movesList = new List<string>();
+            processor.MatchStarted += (g, s, a) =>
             {
-                var actor = TravisInit.Current.GetObject<IActor>(adata.Name);
-                if (actor is MCTSActor)
+                movesList.Clear();
+            };
+            processor.StateTransition += (g, s, a) =>
+            {
+                movesList.Add(s.ToString());
+            };
+            processor.MatchFinished += (g, s) =>
+            {
+                movesList.Add(s.ToString());
+                var p = s.GetPayoffs();
+                if (!sidesSwitched)
+                    System.Console.WriteLine($"{p[0].ToString(CultureInfo.InvariantCulture)}, {p[1].ToString(CultureInfo.InvariantCulture)}");
+                else System.Console.WriteLine($"{p[1].ToString(CultureInfo.InvariantCulture)}, {p[0].ToString(CultureInfo.InvariantCulture)}");
+                if (p[sidesSwitched ? 1 : 0] != 1.0)
+                    foreach (var l in movesList)
+                        System.Console.WriteLine(l);
+            };
+            if (!options.NumOfGames.HasValue)
+                processor.Process(game, actors);
+            else
+            {
+                for (int i = 0; i < options.NumOfGames; i++)
                 {
-                    var mctsActor = actor as MCTSActor;
-                    mctsActor.PlayTimeBudget = budgetProvider;
-                    var actorIds = game.EnumerateActors().ToList();
-
-                    var objects = BuildObjects(adata.BuildObjects);
-
-                    mctsActor.ActionSelectors = MCTSActionSelector.Create(game.EnumerateActors());
-                    if (adata.BuildNames.Any())
-                    {
-                        mctsActor.ActionSelectors = adata.BuildNames.Zip(actorIds, (n, i) => new { SelectorName = n, ActorId = i })
-                            .ToDictionary(sel => sel.ActorId, sel => new ActionSelector()
-                            {
-                                TreePolicy = new UCT(),
-                                DefaultPolicy = objects.ContainsKey(sel.SelectorName)
-                                    ? objects[sel.SelectorName] as IDefaultPolicy
-                                    : TravisInit.Current.GetObject<IDefaultPolicy>(sel.SelectorName)
-                            });
-                    }
+                    sidesSwitched = false;
+                    processor.Process(game, actors);
+                    sidesSwitched = true;
+                    processor.Process(game, reversedActors);
                 }
-                actors.Add(actor);
             }
-            processor.Process(game, actors);
         }
 
-        private Dictionary<string, object> BuildObjects(Dictionary<string, List<KeyValuePair<string, string>>> buildObjects)
+        private IActor BuildActor(ActorData data, int actorId, IBudgetProvider budgetProvider)
+        {
+            var actor = TravisInit.Current.GetObject<IActor>(data.Name);
+
+            if (actor is MCTSActor)
+            {
+                var mctsActor = actor as MCTSActor;
+                mctsActor.PlayTimeBudget = budgetProvider;
+                var objects = BuildObjects(data.BuildObjects);
+                if (data.BuildNames.Any())
+                {
+                    var policies = data.BuildNames.Select(name => objects.ContainsKey(name)
+                                    ? objects[name] as IDefaultPolicy
+                                    : TravisInit.Current.GetObject<IDefaultPolicy>(name)).ToList();
+                    if (actorId > 0)
+                        policies.Reverse();
+                    mctsActor.ActionSelectors = policies.Select((p, i) => new { Key = i, Value = p })
+                        .ToDictionary(kv => kv.Key, kv => new ActionSelector()
+                        { TreePolicy = new UCT(), DefaultPolicy = kv.Value });
+                }
+            }
+            return actor;
+        }
+
+        private Dictionary<string, object> BuildObjects(Dictionary<string, Tuple<string, List<KeyValuePair<string, string>>>> buildObjects)
         {
             var objects = new Dictionary<string, object>();
             var objectsToBuild = new Queue<string>(buildObjects.Keys);
-            while (objectsToBuild.Any())
+            var objectsToBuildNextRound = new List<string>();
+            var lastObjectsToBuildNextRoundCount = 0;
+            while (objectsToBuild.Any() || objectsToBuildNextRound.Any())
             {
+                if (!objectsToBuild.Any())
+                {
+                    if (lastObjectsToBuildNextRoundCount == objectsToBuildNextRound.Count)
+                        throw new Exception($"Unable to build {lastObjectsToBuildNextRoundCount} objects");
+                    foreach (var o in objectsToBuildNextRound)
+                        objectsToBuild.Enqueue(o);
+                    objectsToBuildNextRound.Clear();
+                }
+
                 bool skipObject = false;
                 var objToBuild = objectsToBuild.Dequeue();
-                var obj = TravisInit.Current.GetObject(objToBuild);
+                var obj = TravisInit.Current.GetObject(buildObjects[objToBuild].Item1);
                 var objType = obj.GetType();
-                foreach (var prop in buildObjects[objToBuild])
+                foreach (var prop in buildObjects[objToBuild].Item2)
                 {
                     var propInfo = objType.GetProperty(prop.Key);
                     if (propInfo == null)
@@ -227,13 +282,13 @@ namespace Travis.Console
                     catch
                     {
                         if (!buildObjects.ContainsKey(prop.Value))
-                            throw;
+                            objects.Add(prop.Value, TravisInit.Current.GetObject(prop.Value));
                         if (objects.ContainsKey(prop.Value))
                             setMethod.Invoke(obj, new object[] { objects[prop.Value] });
                         else
                         {
                             skipObject = true;
-                            objectsToBuild.Enqueue(objToBuild);
+                            objectsToBuildNextRound.Add(objToBuild);
                             break;
                         }
                     }

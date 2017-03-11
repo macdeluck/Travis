@@ -36,7 +36,8 @@ namespace Travis.Logic.MCTS
         /// <param name="actorId">Actor id action should be selected for.</param>
         public IAction Invoke(IState state, int actorId)
         {
-            return Random.NextDouble() > ProbabilityThreshold
+            var randVal = Random.NextDouble();
+            return randVal > ProbabilityThreshold
                 ? AdditionalPolicy.Invoke(state, actorId)
                 : OriginalPolicy.Invoke(state, actorId);
         }

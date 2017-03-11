@@ -14,5 +14,13 @@
         /// Action empirical quality.
         /// </summary>
         public double Quality { get; set; } = 0;
+
+        /// <summary>
+        /// Returns string representation of object.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"[Quality: {Quality}, Num selected: {NumSelected}]";
+        }
     }
 }

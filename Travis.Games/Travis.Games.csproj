@@ -58,6 +58,8 @@
     <Compile Include="Hex\HexGameSerializer.cs" />
     <Compile Include="Hex\HexState.cs" />
     <Compile Include="Hex\HexGraph.cs" />
+    <Compile Include="MultipleTicTacToe\Heuristics\BestMoveForBoard.cs" />
+    <Compile Include="MultipleTicTacToe\Heuristics\ChooseBoard.cs" />
     <Compile Include="MultipleTicTacToe\Heuristics\WinningBoardOnly.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToe.cs" />
     <Compile Include="MultipleTicTacToe\MultipleTicTacToeAction.cs" />

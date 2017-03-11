@@ -2,6 +2,7 @@
 using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Travis.Logic.Extensions;
@@ -101,7 +102,7 @@ namespace Travis.Console
             var parameterInfos = typeConstructor.GetParameters();
             for (int i = 0; i < result.Length; i++)
             {
-                result[i] = Convert.ChangeType(arguments[i].Value, parameterInfos[i].ParameterType);
+                result[i] = Convert.ChangeType(arguments[i].Value, parameterInfos[i].ParameterType, CultureInfo.InvariantCulture);
             }
             return result;
         }

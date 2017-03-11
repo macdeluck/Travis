@@ -159,9 +159,16 @@ namespace Travis.Logic.Learning
 
         private void ApplyActionSet(ActionSet actionSet)
         {
+            //Console.WriteLine("Selected actions - " + string.Join(", ", actionSet.Actions.Select(kv => $"{kv.Key}: {kv.Value}")));
             OnStateTransition(actionSet);
             PushDecisionPath(actionSet);
             currentState.Apply(actionSet);
+            //Console.WriteLine("State " + currentState);
+            //if (currentState.IsTerminal)
+            //{
+            //    var p = currentState.GetPayoffs();
+            //    Console.WriteLine($"Payoffs: {p[0]}, {p[1]}");
+            //}
         }
 
         #endregion

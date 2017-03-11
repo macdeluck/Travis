@@ -15,12 +15,12 @@ namespace Travis.Logic.MCTS
         /// <summary>
         /// Processor used to learn tree.
         /// </summary>
-        protected TreeSearchProcessor learningProcessor = new TreeSearchProcessor();
+        public TreeSearchProcessor learningProcessor = new TreeSearchProcessor();
 
         /// <summary>
         /// Current root node.
         /// </summary>
-        protected TreeNode currentRoot;
+        public TreeNode currentRoot;
 
         /// <summary>
         /// Action selectors used to choose moves.

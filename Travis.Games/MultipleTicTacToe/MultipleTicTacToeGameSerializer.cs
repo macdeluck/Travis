@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Travis.Games.MultipleTicTacToe.Heuristics;
 using Travis.Logic.Extensions;
 using Travis.Logic.Model;
 using Travis.Logic.Serialization;
@@ -25,6 +26,12 @@ namespace Travis.Games.MultipleTicTacToe
             var line = reader.ReadLine().Trim();
             if (string.Equals(line, "noop", StringComparison.InvariantCultureIgnoreCase))
                 return actionsAvailable.Values.Single();
+            if (string.Equals(line, "best", StringComparison.InvariantCultureIgnoreCase))
+                return new BestMoveForBoard().Invoke(state, actorId);
+            if (string.Equals(line, "choose", StringComparison.InvariantCultureIgnoreCase))
+                return new ChooseBoard().Invoke(state, actorId);
+            if (string.Equals(line, "winning", StringComparison.InvariantCultureIgnoreCase))
+                return new WinningBoardOnly().Invoke(state, actorId);
             var indexes = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             if (indexes.Length != 3)
                 throw new InvalidOperationException("Invalid capture field index");

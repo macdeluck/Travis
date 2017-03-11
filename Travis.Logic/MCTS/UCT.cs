@@ -2,6 +2,7 @@
 using Travis.Logic.Extensions;
 using Travis.Logic.Learning.Model;
 using Travis.Logic.Model;
+using System.Linq;
 
 namespace Travis.Logic.MCTS
 {

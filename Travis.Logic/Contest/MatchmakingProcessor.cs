@@ -52,9 +52,9 @@ namespace Travis.Logic.Contest
 
         private void OnStateTransition(ActionSet actionSet)
         {
+            StateTransition?.Invoke(game, currentState, actionSet);
             foreach (var actor in actors.Values)
                 actor.OnStateTransition(currentState, actionSet);
-            StateTransition?.Invoke(game, currentState, actionSet);
         }
         
         private void OnMatchFinished()
