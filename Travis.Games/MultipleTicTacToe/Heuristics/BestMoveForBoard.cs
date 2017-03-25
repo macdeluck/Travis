@@ -57,7 +57,18 @@ namespace Travis.Games.MultipleTicTacToe.Heuristics
 
         private void ChooseMove()
         {
-            var tests = new Func<bool>[] { OpenCorner, Win, Block, Fork, BlockFork, Center, OppositeCorner, EmptyCorner, EmptySide };
+            var tests = new Func<bool>[] 
+            {
+                Win,
+                Block,
+                Fork,
+                BlockFork,
+                // OppositeCornersOnly,
+                Center,
+                OppositeCorner,
+                EmptyCorner,
+                EmptySide
+            };
             foreach (var test in tests)
                 if (test())
                     return;
@@ -69,6 +80,34 @@ namespace Travis.Games.MultipleTicTacToe.Heuristics
             {
                 _move = new[] { 0, 0 };
                 return true;
+            }
+            return false;
+        }
+
+        private bool OppositeCornersOnly()
+        {
+            if (_board.PlacedNum == 2)
+            {
+                if (_board[0, 0] == _player && _board[2, 2] == _player.Opponent())
+                {
+                    _move = new[] { 2, 0 };
+                    return true;
+                }
+                else if (_board[2, 0] == _player && _board[0, 2] == _player.Opponent())
+                {
+                    _move = new[] { 0, 0 };
+                    return true;
+                }
+                else if (_board[2, 2] == _player && _board[0, 0] == _player.Opponent())
+                {
+                    _move = new[] { 2, 0 };
+                    return true;
+                }
+                else if (_board[0, 2] == _player && _board[2, 0] == _player.Opponent())
+                {
+                    _move = new[] { 0, 0 };
+                    return true;
+                }
             }
             return false;
         }

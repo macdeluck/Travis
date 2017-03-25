@@ -195,6 +195,8 @@ namespace Travis.Console
             };
             processor.StateTransition += (g, s, a) =>
             {
+                //if (budgetProvider is TimeBasedBudgetProvider)
+                //    System.Console.WriteLine($"Iterations: {(budgetProvider as TimeBasedBudgetProvider).IterationsElapsed}");
                 movesList.Add(s.ToString());
             };
             processor.MatchFinished += (g, s) =>
@@ -204,7 +206,7 @@ namespace Travis.Console
                 if (!sidesSwitched)
                     System.Console.WriteLine($"{p[0].ToString(CultureInfo.InvariantCulture)}, {p[1].ToString(CultureInfo.InvariantCulture)}");
                 else System.Console.WriteLine($"{p[1].ToString(CultureInfo.InvariantCulture)}, {p[0].ToString(CultureInfo.InvariantCulture)}");
-                if (p[sidesSwitched ? 1 : 0] != 1.0)
+                if (p[sidesSwitched ? 1 : 0] == 0.0)
                     foreach (var l in movesList)
                         System.Console.WriteLine(l);
             };
