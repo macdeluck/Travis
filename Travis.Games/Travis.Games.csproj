@@ -48,6 +48,8 @@
     <Compile Include="FarmingQuandaries\FarmingQuandariesAction.cs" />
     <Compile Include="FarmingQuandaries\FarmingQuandariesGameSerializer.cs" />
     <Compile Include="FarmingQuandaries\FarmingQuandariesState.cs" />
+    <Compile Include="FarmingQuandaries\Heuristics\ActiveRowOrColumn.cs" />
+    <Compile Include="FarmingQuandaries\Heuristics\FarmingQuandariesPoints.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbers.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersAction.cs" />
     <Compile Include="GreedyNumbers\GreedyNumbersGameSerializer.cs" />
@@ -76,6 +78,7 @@
       <Name>Travis.Logic</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

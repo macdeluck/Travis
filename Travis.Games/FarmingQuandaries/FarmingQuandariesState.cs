@@ -8,6 +8,46 @@ using Travis.Logic.Model;
 namespace Travis.Games.FarmingQuandaries
 {
     /// <summary>
+    /// Season utils.
+    /// </summary>
+    public static class FarmingQuandariesSeason
+    {
+        /// <summary>
+        /// Winer season constant.
+        /// </summary>
+        public const int Winter = 0;
+
+        /// <summary>
+        /// Spring season constant.
+        /// </summary>
+        public const int Spring = 1;
+
+        /// <summary>
+        /// Summer season constant.
+        /// </summary>
+        public const int Summer = 2;
+
+        /// <summary>
+        /// Fall season constant.
+        /// </summary>
+        public const int Fall = 3;
+
+        /// <summary>
+        /// Converts farming quandaries season to string.
+        /// </summary>
+        /// <param name="season">Number of season.</param>
+        public static string AsString(int season)
+        {
+            return SEASON_NAMES[season];
+        }
+
+        /// <summary>
+        /// Names of seasons.
+        /// </summary>
+        public static readonly string[] SEASON_NAMES = new[] { "Winter", "Spring", "Summer", "Fall" };
+    }
+
+    /// <summary>
     /// Represents <see cref="FarmingQuandaries"/> game state.
     /// </summary>
     public class FarmingQuandariesState : IState
@@ -34,11 +74,6 @@ namespace Travis.Games.FarmingQuandaries
 
         private IDictionary<int, IAction>[] _legalActions;
         private int[] _legalActionsCounts;
-
-        /// <summary>
-        /// Names of seasons.
-        /// </summary>
-        public readonly string[] SEASON_NAMES = new[] { "Winter", "Spring", "Summer", "Fall" };
 
         /// <summary>
         /// The player who choses main action.
@@ -68,12 +103,20 @@ namespace Travis.Games.FarmingQuandaries
             InitLegalActions();
         }
 
-        private int SeasonIndex => (GameStep % 8) / 2;
+        /// <summary>
+        /// Starting player in given state.
+        /// </summary>
+        public int YearStartPlayer => (GameStep / 8) % 2;
+
+        /// <summary>
+        /// Returns season index.
+        /// </summary>
+        public int SeasonIndex => (GameStep % 8) / 2;
 
         /// <summary>
         /// Returns current season name.
         /// </summary>
-        public string CurrentSeason => SEASON_NAMES[SeasonIndex];
+        public string CurrentSeason => FarmingQuandariesSeason.AsString(SeasonIndex);
 
         /// <summary>
         /// Returns string representation of state.
@@ -82,6 +125,8 @@ namespace Travis.Games.FarmingQuandaries
         {
             var lines = new List<string>();
             lines.Add("Control player: " + ControlPlayer.ToString());
+            lines.Add("Year start player: " + YearStartPlayer.ToString());
+            lines.Add("Game step: " + GameStep.ToString());
             lines.Add("Current season: " + CurrentSeason);
             lines.Add("Player 0 points: " + Points[0].ToString());
             lines.Add("Player 1 points: " + Points[1].ToString());

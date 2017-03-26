@@ -75,5 +75,21 @@ namespace Travis.Logic.Extensions
                     array[i, j] = element;
             return array;
         }
+
+        /// <summary>
+        /// Transposes array.
+        /// </summary>
+        /// <typeparam name="T">Type of array element.</typeparam>
+        /// <param name="array">Array to transpose.</param>
+        public static T[,] Transpose<T>(this T[,] array)
+        {
+            var result = new T[array.GetLength(1), array.GetLength(0)];
+            for (int x = 0; x < array.GetLength(0); x++)
+                for (int y = 0; y < array.GetLength(1); y++)
+                {
+                    result[y, x] = array[x, y];
+                }
+            return result;
+        }
     }
 }

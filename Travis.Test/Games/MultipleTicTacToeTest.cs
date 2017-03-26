@@ -106,6 +106,7 @@ namespace Travis.Test.Games
         }
 
         [TestMethod]
+        [Ignore]
         public void MTTTBestPolicyProperGameTest()
         {
             var game = new MultipleTicTacToe();

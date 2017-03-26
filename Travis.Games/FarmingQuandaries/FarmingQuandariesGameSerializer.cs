@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Travis.Games.FarmingQuandaries.Heuristics;
 using Travis.Logic.Extensions;
 using Travis.Logic.Model;
 using Travis.Logic.Serialization;
@@ -43,6 +44,14 @@ namespace Travis.Games.FarmingQuandaries
                 auto = true;
                 return actionsAvailable.Values.RandomElement();
             }
+            if (string.Equals(line, "points", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return new FarmingQuandariesPoints().Invoke(state, actorId);
+            }
+            if (string.Equals(line, "active", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return new ActiveRowOrColumn().Invoke(state, actorId);
+            }
 
             if (string.Equals(line, "noop", StringComparison.InvariantCultureIgnoreCase))
                 return actionsAvailable.Values.Single(a => (a as FarmingQuandariesAction).IsNoop);
@@ -50,7 +59,7 @@ namespace Travis.Games.FarmingQuandaries
             if (split.Length != 2)
                 throw new InvalidOperationException("Invalid action format.");
             var isRowAction = string.Equals(split[0], "row", StringComparison.InvariantCultureIgnoreCase);
-            var index = split[1].Parse<int>() + 1;
+            var index = split[1].Parse<int>() - 1;
             return actionsAvailable.Values.Single(a =>
             {
                 var fa = a as FarmingQuandariesAction;
