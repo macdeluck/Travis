@@ -5,6 +5,9 @@ using System.Linq;
 using Travis.Games.FarmingQuandaries;
 using Travis.Games.FarmingQuandaries.Heuristics;
 using Travis.Logic.Extensions;
+using Travis.Logic.Learning;
+using Travis.Logic.Learning.Model;
+using Travis.Logic.MCTS;
 using Travis.Logic.Model;
 
 namespace Travis.Test.Games
@@ -285,6 +288,20 @@ namespace Travis.Test.Games
             Assert.AreEqual(FarmingQuandariesSeason.Fall, state.SeasonIndex);
             Assert.IsTrue(action.IsRowAction);
             Assert.AreEqual(1, action.Index);
+        }
+
+        public ActionSet GetDefaultActionSetByParams(FarmingQuandariesState state, FarmingAction action, bool isRowAction, int index)
+        {
+            var selectedActions = new Dictionary<int, IAction>();
+            selectedActions.Add(state.ControlPlayer, state.GetActionsForActor(state.ControlPlayer)
+                .Values
+                .OfType<FarmingQuandariesAction>()
+                .First(a => !a.IsNoop && a.FarmingAction == action && a.IsRowAction == isRowAction && a.Index == index));
+            selectedActions.Add(1 - state.ControlPlayer, state.GetActionsForActor(1 - state.ControlPlayer)
+                .Values
+                .OfType<FarmingQuandariesAction>()
+                .First(a => a.IsNoop));
+            return state.CreateActionSet(selectedActions);
         }
     }
 }

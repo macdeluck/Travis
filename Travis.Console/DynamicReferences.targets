@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TravisConsoleSkipDynamicReferences Condition="'$(TravisConsoleSkipDynamicReferences)' == ''">False</TravisConsoleSkipDynamicReferences>
+    <TravisConsoleDynamicReference>Travis.Games</TravisConsoleDynamicReference>
+  </PropertyGroup>
+  <!-- Start another msbuild task to build your unreferenced project -->
+  <Target Name="BuildBeforeResolveReferences" BeforeTargets="BeforeResolveReferences" Condition="$(TravisConsoleSkipDynamicReferences) != True">
+    <MSBuild
+      BuildInParallel="False"
+      Projects="$(SolutionDir)$(TravisConsoleDynamicReference)\$(TravisConsoleDynamicReference).csproj"
+      RunEachTargetSeparately="True"
+      StopOnFirstFailure="False"
+      UnloadProjectsOnCompletion="False">
+    </MSBuild>
+  </Target>
+
+  <Target Name="CopyUnreferencedProjectOutput" AfterTargets="Build" Condition="$(TravisConsoleSkipDynamicReferences) != True">
+    <!-- This item group is here because we do not want it evaluated by msbuild until the Travis.Games.csproj has been compiled and its output is in its output directory -->
+    <ItemGroup>
+      <!-- Gets a list of all files at the OutputPath that end in .dll if you need the pdbs remove the .dll -->
+      <!-- To maintain folder structure in the bin folder use <SourceFiles Include="..\ClassLibary1\@(OutputPath)**\*.dll" /> the double ** is a recursive wild card and will look through all directorys -->
+      <SourceFiles Include="$(MSBuildProjectDirectory)\..\$(TravisConsoleDynamicReference)\$(OutputPath)*.dll" />
+    </ItemGroup>
+
+    <!-- To make sure the copy maintains folder structure switch it to this copy -->
+    <!-- <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles -> '$(MSBuildProjectDirectory)$(OutputPath)%(RecursiveDir)%(Filename)%(Extension)')" /> -->
+    <Copy SourceFiles="@(SourceFiles)" DestinationFolder="$(MSBuildProjectDirectory)\$(OutputPath)" />
+  </Target>
+
+  <!-- Cleans up all the files when clean is called -->
+  <Target Name="CleanUnreferenceProjectOutput" BeforeTargets="Clean" Condition="$(TravisConsoleSkipDynamicReferences) != True">
+    <ItemGroup>
+      <!-- Removed the .dll from the end of this to clean up the pdbs  as well -->
+      <SourceFiles Include="$(SolutionDir)\$(TravisConsoleDynamicReference)\$(OutputPath)*" />
+    </ItemGroup>
+
+    <Delete Files="@(SourceFiles)" />
+  </Target>
+</Project>

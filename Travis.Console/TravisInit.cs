@@ -2,6 +2,7 @@
 using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -23,6 +24,17 @@ namespace Travis.Console
         }
     }
 
+    public enum ErrorPreference
+    {
+        Throw,
+        
+        ExitWithStack,
+
+        ExitWithMessage,
+
+        ExitQuiet
+    }
+
     /// <summary>
     /// Class used to build objects registered in spring.
     /// </summary>
@@ -30,6 +42,8 @@ namespace Travis.Console
     {
         private IApplicationContext context;
         private static TravisInit _instance;
+
+        public static ErrorPreference ErrorHandlingPreference { get; set; } = ErrorPreference.Throw;
 
         /// <summary>
         /// Gets curent <see cref="TravisInit"/> instance.
@@ -73,10 +87,33 @@ namespace Travis.Console
         {
             var type = context.GetType(name);
             if (!context.ContainsObject(name))
-                throw new ObjectConstructionException(Messages.ObjectNotRegistered.FormatString(name));
+                RaiseConstructionError(Messages.ObjectNotRegistered, name);
             if (!typeof(T).IsAssignableFrom(type))
-                throw new ObjectConstructionException(Messages.InvalidObjectType.FormatString(name, type.Name, typeof(T).Name));
+                RaiseConstructionError(Messages.InvalidObjectType, name, typeof(T).FullName, type.FullName);
             return type;
+        }
+
+        private static void RaiseConstructionError(string errorMsg, params object[] args)
+        {
+            var msg = errorMsg.FormatString(args);
+            switch (ErrorHandlingPreference)
+            {
+                case ErrorPreference.ExitWithMessage:
+                    System.Console.Error.WriteLine(msg);
+                    Environment.Exit(1);
+                    break;
+                case ErrorPreference.ExitWithStack:
+                    System.Console.Error.WriteLine(msg);
+                    System.Console.Error.WriteLine(new StackTrace());
+                    Environment.Exit(1);
+                    break;
+                case ErrorPreference.ExitQuiet:
+                    Environment.Exit(1);
+                    break;
+                case ErrorPreference.Throw:
+                default:
+                    throw new ObjectConstructionException(msg);
+            }
         }
 
         /// <summary>
@@ -90,8 +127,8 @@ namespace Travis.Console
             var type = GetType<T>(name);
             var typeConstructor = FindConstructor(type, arguments);
             if (typeConstructor == null)
-                throw new ObjectConstructionException(Messages.ConstructorNotFound.FormatString(typeof(T).Name, name,
-                    arguments.Select(kv => kv.Key + " = " + kv.Value).JoinString(", ")));
+                RaiseConstructionError(Messages.ConstructorNotFound, typeof(T).Name, name,
+                    arguments.Select(kv => kv.Key + " = " + kv.Value).JoinString(", "));
             var args = CastArguments(typeConstructor, arguments);
             return context.GetObject<T>(name, args);
         }
